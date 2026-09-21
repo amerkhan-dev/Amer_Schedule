@@ -141,3 +141,9 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Amer OS
+data/
+*.db
+*.db-wal
+*.db-shm

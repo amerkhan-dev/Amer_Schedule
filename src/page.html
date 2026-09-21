@@ -1,0 +1,290 @@
+<title>Amer OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF1EF; --surface:#FFFFFF; --surface-2:#F6F8F7; --ink:#15201C; --muted:#5B6863; --faint:#8D9993;
+  --line:#D9DFDC; --line-strong:#B9C3BE; --accent:#1F4FD8; --accent-ink:#FFFFFF; --focus:#1F4FD8;
+  --good:#2B8A3E; --warn:#B7791F; --bad:#C92A2A; --now:#E03131;
+  --c-class:#3B5BDB; --c-belay:#E8590C; --c-career:#7048E8; --c-gym:#2F9E44; --c-meals:#A87B00;
+  --c-free:#0C8599; --c-work:#5C677D; --c-sleep:#495057; --c-other:#868E96;
+  --tint:17%; --tint-ink:62%;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --r:10px; --r-sm:7px;
+  --shadow:0 1px 2px rgba(20,32,28,.06),0 6px 20px rgba(20,32,28,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1210; --surface:#151C19; --surface-2:#1B2420; --ink:#E4EBE7; --muted:#A1AEA8; --faint:#6F7C76;
+    --line:#26312C; --line-strong:#38453F; --accent:#7C9CFF; --accent-ink:#0B1020; --focus:#9DB4FF;
+    --good:#69DB7C; --warn:#FFC857; --bad:#FF8787; --now:#FF6B6B;
+    --c-class:#7C93FF; --c-belay:#FF8A4C; --c-career:#A58BFF; --c-gym:#5FD37A; --c-meals:#E0B43C;
+    --c-free:#3BC9DB; --c-work:#9AA5B8; --c-sleep:#868E96; --c-other:#ADB5BD;
+    --tint:24%; --tint-ink:88%;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1210; --surface:#151C19; --surface-2:#1B2420; --ink:#E4EBE7; --muted:#A1AEA8; --faint:#6F7C76;
+  --line:#26312C; --line-strong:#38453F; --accent:#7C9CFF; --accent-ink:#0B1020; --focus:#9DB4FF;
+  --good:#69DB7C; --warn:#FFC857; --bad:#FF8787; --now:#FF6B6B;
+  --c-class:#7C93FF; --c-belay:#FF8A4C; --c-career:#A58BFF; --c-gym:#5FD37A; --c-meals:#E0B43C;
+  --c-free:#3BC9DB; --c-work:#9AA5B8; --c-sleep:#868E96; --c-other:#ADB5BD;
+  --tint:24%; --tint-ink:88%;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{color:var(--ink);font:14px/1.45 var(--body);padding-inline:16px;padding-block:14px 40px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.wrap{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.wrap > *{min-width:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:34px;line-height:1}
+h2{font-size:21px;line-height:1.1}
+h3{font-size:17px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r-sm);padding:7px 12px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.small{padding:4px 9px;font-size:12px}
+.btn[disabled]{opacity:.55;cursor:default}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;background:color-mix(in oklab,var(--c) var(--tint),var(--surface));color:color-mix(in oklab,var(--c) var(--tint-ink),var(--ink))}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:6px 8px;min-width:0;width:100%}
+textarea{resize:vertical;min-height:70px}
+.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.panel-b{padding:12px 14px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+/* Top bar */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:grid;gap:6px}
+.brand p{margin:0;color:var(--muted);max-width:60ch}
+.weeknav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.weeklabel{font:600 20px/1 var(--display);min-width:150px;text-align:center}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status .dot{--c:var(--faint)}
+.status.live .dot{--c:var(--good)}
+.status.local .dot{--c:var(--warn)}
+
+/* Scoreboard */
+.score{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:10px}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0}
+.goal .num{white-space:nowrap}
+@media (max-width:720px){
+  .score{display:flex;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px}
+  .goal{flex:0 0 158px;scroll-snap-align:start}
+}
+.goal .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.goal .name{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;min-width:0}
+.goal .name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.goal .num{font:600 22px/1 var(--display)}
+.goal .num small{font:500 13px var(--body);color:var(--muted)}
+.bar{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden;position:relative;border:1px solid var(--line)}
+.bar i{position:absolute;inset:0 auto 0 0;background:color-mix(in oklab,var(--c) 45%,var(--surface))}
+.bar b{position:absolute;inset:0 auto 0 0;background:var(--c)}
+.goal .note{font-size:11px;color:var(--muted)}
+
+/* Layout */
+.main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+@media (max-width:1100px){.main{grid-template-columns:minmax(0,1fr)}}
+.side{display:grid;gap:14px}
+
+/* Week grid */
+.gridwrap{overflow-x:auto}
+.week{display:grid;grid-template-columns:52px repeat(7,minmax(96px,1fr));min-width:760px}
+.whead{position:sticky;top:0;z-index:3;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 6px;text-align:center}
+.whead .d{font:600 16px/1 var(--display)}
+.whead .n{font-size:11px;color:var(--muted)}
+.whead.today .d{color:var(--accent)}
+.whead .load{font-size:10px;color:var(--faint);margin-top:2px}
+.tcol{position:relative;border-right:1px solid var(--line)}
+.tick{position:absolute;right:6px;transform:translateY(-50%);font:500 10px var(--mono);color:var(--faint)}
+.dcol{position:relative;border-right:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% var(--hour)}
+.dcol:last-child{border-right:0}
+.dcol.today{background-color:color-mix(in oklab,var(--accent) 4%,transparent)}
+.nowline{position:absolute;left:0;right:0;height:2px;background:var(--now);z-index:2}
+.nowline::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--now)}
+.blk{position:absolute;left:3px;right:3px;border-radius:6px;padding:3px 6px;overflow:hidden;cursor:pointer;border:1px solid color-mix(in oklab,var(--c) 40%,transparent);background:color-mix(in oklab,var(--c) var(--tint),var(--surface));color:color-mix(in oklab,var(--c) var(--tint-ink),var(--ink));font-size:11.5px;line-height:1.25;text-align:left}
+.blk:hover{z-index:4;box-shadow:var(--shadow)}
+.blk .t{font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.blk .tm{font:500 10px var(--mono);opacity:.85}
+.blk.fixed{background:repeating-linear-gradient(135deg,color-mix(in oklab,var(--c) var(--tint),var(--surface)) 0 7px,color-mix(in oklab,var(--c) calc(var(--tint) + 6%),var(--surface)) 7px 14px)}
+.blk.done{opacity:.55}
+.blk.done .t{text-decoration:line-through}
+.blk.tiny .tm{display:none}
+
+/* Agenda (phone + today) */
+.daytabs{display:none;gap:6px;overflow-x:auto;padding-bottom:4px}
+.daytabs button{flex:none}
+.daytabs button[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.agenda{display:grid;gap:6px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:var(--r-sm);background:color-mix(in oklab,var(--c) 9%,var(--surface));border:1px solid color-mix(in oklab,var(--c) 22%,var(--line))}
+.item .when{font:500 12px var(--mono);color:var(--muted);white-space:nowrap}
+.item .what{font-weight:600;min-width:0}
+.item .what small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.item.done .what{text-decoration:line-through;opacity:.6}
+.check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--c);background:var(--surface);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--surface)}
+.check[aria-pressed=true]{background:var(--c)}
+.check svg{width:14px;height:14px}
+@media (max-width:720px){
+  .gridwrap{display:none}
+  .daytabs{display:flex}
+  .mobile-agenda{display:grid!important}
+  h1{font-size:28px}
+}
+.mobile-agenda{display:none}
+
+/* Agent */
+.agent-out{white-space:pre-wrap;font-size:13.5px;line-height:1.5}
+.ops{display:grid;gap:6px;margin-top:10px}
+.op{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;font-size:13px;padding:7px 9px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2)}
+.op input{margin-top:3px}
+.brief{border-left:3px solid var(--accent);padding:2px 0 2px 10px;white-space:pre-wrap;font-size:13px}
+.examples{display:flex;flex-wrap:wrap;gap:6px}
+.examples button{border:1px dashed var(--line-strong);background:transparent;border-radius:999px;padding:3px 10px;font-size:12px;cursor:pointer;color:var(--muted)}
+.examples button:hover{color:var(--ink);border-color:var(--ink)}
+
+/* Setup tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;padding:7px 11px;border-radius:var(--r-sm);cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected=true]{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.list{display:grid;gap:6px}
+.row-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-sm)}
+.row-item .meta{font-size:12px;color:var(--muted)}
+.row-item.done .ttl{text-decoration:line-through;color:var(--muted)}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;align-items:end;padding:10px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);margin-top:10px}
+.form .wide{grid-column:span 2}
+@media (max-width:480px){.form .wide{grid-column:1/-1}}
+.days{display:flex;gap:4px;flex-wrap:wrap}
+.days label{display:inline-flex;align-items:center;gap:3px;font-size:12px;border:1px solid var(--line-strong);border-radius:6px;padding:3px 6px;cursor:pointer;color:var(--ink);font-weight:500}
+.days input{margin:0}
+.empty{padding:14px;text-align:center;color:var(--muted);border:1px dashed var(--line-strong);border-radius:var(--r-sm)}
+
+/* Popover + toast */
+.pop{position:fixed;z-index:50;width:min(300px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:grid;gap:8px}
+.pop .acts{display:flex;gap:6px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;z-index:60;box-shadow:var(--shadow)}
+.banner{padding:9px 12px;border-radius:var(--r-sm);background:color-mix(in oklab,var(--warn) 14%,var(--surface));border:1px solid color-mix(in oklab,var(--warn) 40%,var(--line));font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.overlay{position:fixed;inset:0;z-index:70;background:color-mix(in oklab,var(--ground) 82%,transparent);backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px}
+.authcard{width:min(380px,100%)}
+.conn{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:10px;border-top:1px solid var(--line);margin-top:4px}
+.conn .who{font-size:12px;color:var(--muted);margin-right:auto}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">Weekly operating system</span>
+      <h1>Amer OS</h1>
+      <p>Classes, Belay, gym, career prep, meals and protected free time, planned around your goals. The planner lays out the week; Claude handles the judgment calls. Nothing changes until you approve it.</p>
+    </div>
+    <div class="weeknav">
+      <button class="btn ghost" id="prevWeek" aria-label="Previous week">&larr;</button>
+      <div class="weeklabel" id="weekLabel">This week</div>
+      <button class="btn ghost" id="nextWeek" aria-label="Next week">&rarr;</button>
+      <button class="btn" id="thisWeek">Today</button>
+      <button class="btn primary" id="planBtn">Plan this week</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <section aria-label="Weekly targets">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+      <h2>Weekly targets</h2>
+      <div class="status" id="status"><span class="dot"></span><span>Connecting…</span></div>
+    </div>
+    <div class="score" id="score"></div>
+  </section>
+
+  <div class="main">
+    <section class="panel" aria-label="Week plan">
+      <div class="panel-h">
+        <div style="display:grid;gap:2px">
+          <h2 id="planTitle">Week plan</h2>
+          <span class="small muted" id="planMeta">No plan yet</span>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="panel-b" style="padding:0">
+        <div class="daytabs panel-b" id="dayTabs"></div>
+        <div class="mobile-agenda panel-b" id="mobileAgenda"></div>
+        <div class="gridwrap" id="gridWrap"></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-label="Claude">
+        <div class="panel-h"><h2>Ask Claude</h2><span class="small muted" id="agentState">Proposes changes for you to approve</span></div>
+        <div class="panel-b" style="display:grid;gap:10px">
+          <div id="briefBox" hidden></div>
+      <div id="connections" class="conn" hidden></div>
+          <div id="proposalBox" hidden></div>
+          <label class="f" for="agentInput">What changed, or what do you need?</label>
+          <textarea id="agentInput" placeholder="e.g. My CSE midterm moved to Thursday at 2pm. I need 4 hours of prep before it."></textarea>
+          <div class="examples" id="examples"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn primary" id="askBtn">Ask Claude</button>
+            <button class="btn" id="stopBtn" hidden>Stop</button>
+            <button class="btn ghost" id="reviewBtn">Review my week</button>
+          </div>
+          <div id="agentOut" class="agent-out" hidden></div>
+          <div id="agentOps"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Today">
+        <div class="panel-h"><h2 id="todayTitle">Today</h2><span class="small muted" id="todayMeta"></span></div>
+        <div class="panel-b"><div class="agenda" id="todayList"></div></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="panel" aria-label="Setup">
+    <div class="panel-h">
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" data-tab="tasks" aria-selected="true">Tasks</button>
+        <button role="tab" data-tab="events" aria-selected="false">One-off events</button>
+        <button role="tab" data-tab="commitments" aria-selected="false">Weekly schedule</button>
+        <button role="tab" data-tab="goals" aria-selected="false">Goals</button>
+        <button role="tab" data-tab="rules" aria-selected="false">Day &amp; rules</button>
+      </div>
+    </div>
+    <div class="panel-b" id="tabBody"></div>
+  </section>
+</div>
+<div id="authOverlay" class="overlay" hidden>
+  <form class="panel authcard" id="authForm">
+    <div class="panel-b" style="display:grid;gap:12px">
+      <div>
+        <span class="eyebrow">Weekly operating system</span>
+        <h2 style="font-size:26px">Amer OS</h2>
+      </div>
+      <p class="small muted" id="authIntro" style="margin:0">Sign in to your planner.</p>
+      <label class="f" for="authEmail">Email<input type="email" id="authEmail" autocomplete="username" required></label>
+      <label class="f" for="authPassword">Password<input type="password" id="authPassword" autocomplete="current-password" required></label>
+      <div class="small" id="authError" style="color:var(--bad)" hidden></div>
+      <button class="btn primary" type="submit" id="authSubmit">Sign in</button>
+    </div>
+  </form>
+</div>
+<div id="pop" class="pop" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<script>
+/*__JS__*/
+</script>
