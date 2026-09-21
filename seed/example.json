@@ -1,0 +1,170 @@
+{
+ "config": {
+  "main": {
+   "wake": "07:30",
+   "bed": "23:30",
+   "buffer": 10,
+   "maxChunk": 120,
+   "meals": [
+    {
+     "name": "Breakfast",
+     "from": "07:30",
+     "to": "09:30",
+     "minutes": 30
+    },
+    {
+     "name": "Lunch",
+     "from": "11:30",
+     "to": "14:00",
+     "minutes": 45
+    },
+    {
+     "name": "Dinner",
+     "from": "17:30",
+     "to": "20:30",
+     "minutes": 45
+    }
+   ],
+   "windows": {
+    "morning": [
+     "07:00",
+     "12:00"
+    ],
+    "afternoon": [
+     "12:00",
+     "17:30"
+    ],
+    "evening": [
+     "17:30",
+     "23:30"
+    ]
+   },
+   "rules": "Protect sleep: in bed by 11:30pm on weeknights.\nDeep work goes in the mornings when classes allow.\nNo LeetCode after 10pm.\nSaturday night is free time.\nIf the week is overloaded, trim career prep before gym, meals or sleep.",
+   "about": ""
+  }
+ },
+ "goals": {
+  "g-belay-deep": {
+   "pillar": "belay",
+   "label": "Belay deep work",
+   "count": 5,
+   "minutes": 120,
+   "when": "morning",
+   "protect": true,
+   "order": 1
+  },
+  "g-belay-calls": {
+   "pillar": "belay",
+   "label": "Customer conversations",
+   "count": 4,
+   "minutes": 30,
+   "when": "afternoon",
+   "order": 2
+  },
+  "g-gym": {
+   "pillar": "gym",
+   "label": "Lift",
+   "count": 4,
+   "minutes": 75,
+   "when": "evening",
+   "protect": true,
+   "order": 3
+  },
+  "g-study": {
+   "pillar": "class",
+   "label": "Study & homework",
+   "count": 6,
+   "minutes": 90,
+   "when": "afternoon",
+   "order": 4
+  },
+  "g-leetcode": {
+   "pillar": "career",
+   "label": "LeetCode",
+   "count": 5,
+   "minutes": 45,
+   "when": "any",
+   "latest": "22:00",
+   "order": 5
+  },
+  "g-apps": {
+   "pillar": "career",
+   "label": "Internship applications",
+   "count": 2,
+   "minutes": 60,
+   "when": "any",
+   "order": 6
+  },
+  "g-interview": {
+   "pillar": "career",
+   "label": "Interview prep",
+   "count": 2,
+   "minutes": 45,
+   "when": "any",
+   "order": 7
+  },
+  "g-free": {
+   "pillar": "free",
+   "label": "Free time",
+   "count": 7,
+   "minutes": 60,
+   "when": "evening",
+   "protect": true,
+   "late": true,
+   "order": 8
+  },
+  "g-sat-off": {
+   "pillar": "free",
+   "label": "Saturday night off",
+   "count": 1,
+   "minutes": 180,
+   "when": "evening",
+   "days": [
+    5
+   ],
+   "protect": true,
+   "order": 9,
+   "strict": true
+  },
+  "g-mealprep": {
+   "pillar": "meals",
+   "label": "Meal prep",
+   "count": 1,
+   "minutes": 90,
+   "when": "afternoon",
+   "days": [
+    6
+   ],
+   "order": 10
+  }
+ },
+ "tasks": {
+  "t-ex1": {
+   "title": "Example: finish problem set",
+   "pillar": "class",
+   "minutes": 120,
+   "due": "2026-09-24",
+   "priority": 1,
+   "done": false,
+   "createdAt": 1789790000001
+  },
+  "t-ex2": {
+   "title": "Example: apply to 3 internships",
+   "pillar": "career",
+   "minutes": 90,
+   "due": "2026-09-25",
+   "priority": 2,
+   "done": false,
+   "createdAt": 1789790000002
+  },
+  "t-ex3": {
+   "title": "Example: write outreach list",
+   "pillar": "belay",
+   "minutes": 60,
+   "due": "2026-09-23",
+   "priority": 2,
+   "done": false,
+   "createdAt": 1789790000003
+  }
+ }
+}

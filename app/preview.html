@@ -1,0 +1,1628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important} body{margin:0}</style>
+</head>
+<body>
+<title>Amer OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF1EF; --surface:#FFFFFF; --surface-2:#F6F8F7; --ink:#15201C; --muted:#5B6863; --faint:#8D9993;
+  --line:#D9DFDC; --line-strong:#B9C3BE; --accent:#1F4FD8; --accent-ink:#FFFFFF; --focus:#1F4FD8;
+  --good:#2B8A3E; --warn:#B7791F; --bad:#C92A2A; --now:#E03131;
+  --c-class:#3B5BDB; --c-belay:#E8590C; --c-career:#7048E8; --c-gym:#2F9E44; --c-meals:#A87B00;
+  --c-free:#0C8599; --c-work:#5C677D; --c-sleep:#495057; --c-other:#868E96;
+  --tint:17%; --tint-ink:62%;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+  --r:10px; --r-sm:7px;
+  --shadow:0 1px 2px rgba(20,32,28,.06),0 6px 20px rgba(20,32,28,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1210; --surface:#151C19; --surface-2:#1B2420; --ink:#E4EBE7; --muted:#A1AEA8; --faint:#6F7C76;
+    --line:#26312C; --line-strong:#38453F; --accent:#7C9CFF; --accent-ink:#0B1020; --focus:#9DB4FF;
+    --good:#69DB7C; --warn:#FFC857; --bad:#FF8787; --now:#FF6B6B;
+    --c-class:#7C93FF; --c-belay:#FF8A4C; --c-career:#A58BFF; --c-gym:#5FD37A; --c-meals:#E0B43C;
+    --c-free:#3BC9DB; --c-work:#9AA5B8; --c-sleep:#868E96; --c-other:#ADB5BD;
+    --tint:24%; --tint-ink:88%;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1210; --surface:#151C19; --surface-2:#1B2420; --ink:#E4EBE7; --muted:#A1AEA8; --faint:#6F7C76;
+  --line:#26312C; --line-strong:#38453F; --accent:#7C9CFF; --accent-ink:#0B1020; --focus:#9DB4FF;
+  --good:#69DB7C; --warn:#FFC857; --bad:#FF8787; --now:#FF6B6B;
+  --c-class:#7C93FF; --c-belay:#FF8A4C; --c-career:#A58BFF; --c-gym:#5FD37A; --c-meals:#E0B43C;
+  --c-free:#3BC9DB; --c-work:#9AA5B8; --c-sleep:#868E96; --c-other:#ADB5BD;
+  --tint:24%; --tint-ink:88%;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{color:var(--ink);font:14px/1.45 var(--body);padding-inline:16px;padding-block:14px 40px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+.wrap{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.wrap > *{min-width:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:600 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:34px;line-height:1}
+h2{font-size:21px;line-height:1.1}
+h3{font-size:17px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r-sm);padding:7px 12px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.small{padding:4px 9px;font-size:12px}
+.btn[disabled]{opacity:.55;cursor:default}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;background:color-mix(in oklab,var(--c) var(--tint),var(--surface));color:color-mix(in oklab,var(--c) var(--tint-ink),var(--ink))}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:6px 8px;min-width:0;width:100%}
+textarea{resize:vertical;min-height:70px}
+.f{display:grid;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.panel-b{padding:12px 14px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+/* Top bar */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:grid;gap:6px}
+.brand p{margin:0;color:var(--muted);max-width:60ch}
+.weeknav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.weeklabel{font:600 20px/1 var(--display);min-width:150px;text-align:center}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status .dot{--c:var(--faint)}
+.status.live .dot{--c:var(--good)}
+.status.local .dot{--c:var(--warn)}
+
+/* Scoreboard */
+.score{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:10px}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0}
+.goal .num{white-space:nowrap}
+@media (max-width:720px){
+  .score{display:flex;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px}
+  .goal{flex:0 0 158px;scroll-snap-align:start}
+}
+.goal .row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.goal .name{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px;min-width:0}
+.goal .name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.goal .num{font:600 22px/1 var(--display)}
+.goal .num small{font:500 13px var(--body);color:var(--muted)}
+.bar{height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden;position:relative;border:1px solid var(--line)}
+.bar i{position:absolute;inset:0 auto 0 0;background:color-mix(in oklab,var(--c) 45%,var(--surface))}
+.bar b{position:absolute;inset:0 auto 0 0;background:var(--c)}
+.goal .note{font-size:11px;color:var(--muted)}
+
+/* Layout */
+.main{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:14px;align-items:start}
+@media (max-width:1100px){.main{grid-template-columns:minmax(0,1fr)}}
+.side{display:grid;gap:14px}
+
+/* Week grid */
+.gridwrap{overflow-x:auto}
+.week{display:grid;grid-template-columns:52px repeat(7,minmax(96px,1fr));min-width:760px}
+.whead{position:sticky;top:0;z-index:3;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 6px;text-align:center}
+.whead .d{font:600 16px/1 var(--display)}
+.whead .n{font-size:11px;color:var(--muted)}
+.whead.today .d{color:var(--accent)}
+.whead .load{font-size:10px;color:var(--faint);margin-top:2px}
+.tcol{position:relative;border-right:1px solid var(--line)}
+.tick{position:absolute;right:6px;transform:translateY(-50%);font:500 10px var(--mono);color:var(--faint)}
+.dcol{position:relative;border-right:1px solid var(--line);background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% var(--hour)}
+.dcol:last-child{border-right:0}
+.dcol.today{background-color:color-mix(in oklab,var(--accent) 4%,transparent)}
+.nowline{position:absolute;left:0;right:0;height:2px;background:var(--now);z-index:2}
+.nowline::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--now)}
+.blk{position:absolute;left:3px;right:3px;border-radius:6px;padding:3px 6px;overflow:hidden;cursor:pointer;border:1px solid color-mix(in oklab,var(--c) 40%,transparent);background:color-mix(in oklab,var(--c) var(--tint),var(--surface));color:color-mix(in oklab,var(--c) var(--tint-ink),var(--ink));font-size:11.5px;line-height:1.25;text-align:left}
+.blk:hover{z-index:4;box-shadow:var(--shadow)}
+.blk .t{font-weight:700;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.blk .tm{font:500 10px var(--mono);opacity:.85}
+.blk.fixed{background:repeating-linear-gradient(135deg,color-mix(in oklab,var(--c) var(--tint),var(--surface)) 0 7px,color-mix(in oklab,var(--c) calc(var(--tint) + 6%),var(--surface)) 7px 14px)}
+.blk.done{opacity:.55}
+.blk.done .t{text-decoration:line-through}
+.blk.tiny .tm{display:none}
+
+/* Agenda (phone + today) */
+.daytabs{display:none;gap:6px;overflow-x:auto;padding-bottom:4px}
+.daytabs button{flex:none}
+.daytabs button[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.agenda{display:grid;gap:6px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:var(--r-sm);background:color-mix(in oklab,var(--c) 9%,var(--surface));border:1px solid color-mix(in oklab,var(--c) 22%,var(--line))}
+.item .when{font:500 12px var(--mono);color:var(--muted);white-space:nowrap}
+.item .what{font-weight:600;min-width:0}
+.item .what small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.item.done .what{text-decoration:line-through;opacity:.6}
+.check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--c);background:var(--surface);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--surface)}
+.check[aria-pressed=true]{background:var(--c)}
+.check svg{width:14px;height:14px}
+@media (max-width:720px){
+  .gridwrap{display:none}
+  .daytabs{display:flex}
+  .mobile-agenda{display:grid!important}
+  h1{font-size:28px}
+}
+.mobile-agenda{display:none}
+
+/* Agent */
+.agent-out{white-space:pre-wrap;font-size:13.5px;line-height:1.5}
+.ops{display:grid;gap:6px;margin-top:10px}
+.op{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;font-size:13px;padding:7px 9px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2)}
+.op input{margin-top:3px}
+.brief{border-left:3px solid var(--accent);padding:2px 0 2px 10px;white-space:pre-wrap;font-size:13px}
+.examples{display:flex;flex-wrap:wrap;gap:6px}
+.examples button{border:1px dashed var(--line-strong);background:transparent;border-radius:999px;padding:3px 10px;font-size:12px;cursor:pointer;color:var(--muted)}
+.examples button:hover{color:var(--ink);border-color:var(--ink)}
+
+/* Setup tabs */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;padding:7px 11px;border-radius:var(--r-sm);cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs button[aria-selected=true]{background:var(--surface-2);color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
+.list{display:grid;gap:6px}
+.row-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-sm)}
+.row-item .meta{font-size:12px;color:var(--muted)}
+.row-item.done .ttl{text-decoration:line-through;color:var(--muted)}
+.form{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;align-items:end;padding:10px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);margin-top:10px}
+.form .wide{grid-column:span 2}
+@media (max-width:480px){.form .wide{grid-column:1/-1}}
+.days{display:flex;gap:4px;flex-wrap:wrap}
+.days label{display:inline-flex;align-items:center;gap:3px;font-size:12px;border:1px solid var(--line-strong);border-radius:6px;padding:3px 6px;cursor:pointer;color:var(--ink);font-weight:500}
+.days input{margin:0}
+.empty{padding:14px;text-align:center;color:var(--muted);border:1px dashed var(--line-strong);border-radius:var(--r-sm)}
+
+/* Popover + toast */
+.pop{position:fixed;z-index:50;width:min(300px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r);box-shadow:var(--shadow);padding:12px;display:grid;gap:8px}
+.pop .acts{display:flex;gap:6px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;z-index:60;box-shadow:var(--shadow)}
+.banner{padding:9px 12px;border-radius:var(--r-sm);background:color-mix(in oklab,var(--warn) 14%,var(--surface));border:1px solid color-mix(in oklab,var(--warn) 40%,var(--line));font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.overlay{position:fixed;inset:0;z-index:70;background:color-mix(in oklab,var(--ground) 82%,transparent);backdrop-filter:blur(3px);display:grid;place-items:center;padding:16px}
+.authcard{width:min(380px,100%)}
+.conn{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:10px;border-top:1px solid var(--line);margin-top:4px}
+.conn .who{font-size:12px;color:var(--muted);margin-right:auto}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">Weekly operating system</span>
+      <h1>Amer OS</h1>
+      <p>Classes, Belay, gym, career prep, meals and protected free time, planned around your goals. The planner lays out the week; Claude handles the judgment calls. Nothing changes until you approve it.</p>
+    </div>
+    <div class="weeknav">
+      <button class="btn ghost" id="prevWeek" aria-label="Previous week">&larr;</button>
+      <div class="weeklabel" id="weekLabel">This week</div>
+      <button class="btn ghost" id="nextWeek" aria-label="Next week">&rarr;</button>
+      <button class="btn" id="thisWeek">Today</button>
+      <button class="btn primary" id="planBtn">Plan this week</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <section aria-label="Weekly targets">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+      <h2>Weekly targets</h2>
+      <div class="status" id="status"><span class="dot"></span><span>Connecting…</span></div>
+    </div>
+    <div class="score" id="score"></div>
+  </section>
+
+  <div class="main">
+    <section class="panel" aria-label="Week plan">
+      <div class="panel-h">
+        <div style="display:grid;gap:2px">
+          <h2 id="planTitle">Week plan</h2>
+          <span class="small muted" id="planMeta">No plan yet</span>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="panel-b" style="padding:0">
+        <div class="daytabs panel-b" id="dayTabs"></div>
+        <div class="mobile-agenda panel-b" id="mobileAgenda"></div>
+        <div class="gridwrap" id="gridWrap"></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel" aria-label="Claude">
+        <div class="panel-h"><h2>Ask Claude</h2><span class="small muted" id="agentState">Proposes changes for you to approve</span></div>
+        <div class="panel-b" style="display:grid;gap:10px">
+          <div id="briefBox" hidden></div>
+      <div id="connections" class="conn" hidden></div>
+          <div id="proposalBox" hidden></div>
+          <label class="f" for="agentInput">What changed, or what do you need?</label>
+          <textarea id="agentInput" placeholder="e.g. My CSE midterm moved to Thursday at 2pm. I need 4 hours of prep before it."></textarea>
+          <div class="examples" id="examples"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn primary" id="askBtn">Ask Claude</button>
+            <button class="btn" id="stopBtn" hidden>Stop</button>
+            <button class="btn ghost" id="reviewBtn">Review my week</button>
+          </div>
+          <div id="agentOut" class="agent-out" hidden></div>
+          <div id="agentOps"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Today">
+        <div class="panel-h"><h2 id="todayTitle">Today</h2><span class="small muted" id="todayMeta"></span></div>
+        <div class="panel-b"><div class="agenda" id="todayList"></div></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="panel" aria-label="Setup">
+    <div class="panel-h">
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" data-tab="tasks" aria-selected="true">Tasks</button>
+        <button role="tab" data-tab="events" aria-selected="false">One-off events</button>
+        <button role="tab" data-tab="commitments" aria-selected="false">Weekly schedule</button>
+        <button role="tab" data-tab="goals" aria-selected="false">Goals</button>
+        <button role="tab" data-tab="rules" aria-selected="false">Day &amp; rules</button>
+      </div>
+    </div>
+    <div class="panel-b" id="tabBody"></div>
+  </section>
+</div>
+<div id="authOverlay" class="overlay" hidden>
+  <form class="panel authcard" id="authForm">
+    <div class="panel-b" style="display:grid;gap:12px">
+      <div>
+        <span class="eyebrow">Weekly operating system</span>
+        <h2 style="font-size:26px">Amer OS</h2>
+      </div>
+      <p class="small muted" id="authIntro" style="margin:0">Sign in to your planner.</p>
+      <label class="f" for="authEmail">Email<input type="email" id="authEmail" autocomplete="username" required></label>
+      <label class="f" for="authPassword">Password<input type="password" id="authPassword" autocomplete="current-password" required></label>
+      <div class="small" id="authError" style="color:var(--bad)" hidden></div>
+      <button class="btn primary" type="submit" id="authSubmit">Sign in</button>
+    </div>
+  </form>
+</div>
+<div id="pop" class="pop" hidden></div>
+<div id="toast" class="toast" hidden></div>
+<script>
+/* Shared planning engine.
+ *
+ * This file runs in two places with no changes:
+ *   - in the browser, inlined into the page by scripts/build.mjs
+ *   - on the server, as app/engine.mjs (the build appends an export line)
+ *
+ * It is pure: everything it needs comes in as arguments, so the same week
+ * can be planned in the page, in a test, or by the nightly job.
+ */
+
+const PILLARS = {
+  class:  { label: "Classes & study" },
+  belay:  { label: "Belay" },
+  career: { label: "Career prep" },
+  gym:    { label: "Gym" },
+  meals:  { label: "Meals" },
+  free:   { label: "Free time" },
+  work:   { label: "Work & club" },
+  other:  { label: "Other" },
+};
+const PKEYS = Object.keys(PILLARS);
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const COLLECTIONS = ["goals", "commitments", "events", "tasks", "plans"];
+const DEFAULT_CONFIG = {
+  wake: "07:30", bed: "23:30", buffer: 10, maxChunk: 120,
+  meals: [
+    { name: "Breakfast", from: "07:30", to: "09:30", minutes: 30 },
+    { name: "Lunch", from: "11:30", to: "14:00", minutes: 45 },
+    { name: "Dinner", from: "17:30", to: "20:30", minutes: 45 },
+  ],
+  windows: { morning: ["07:00", "12:00"], afternoon: ["12:00", "17:30"], evening: ["17:30", "23:30"] },
+  rules: "", about: "",
+};
+
+/* ---------- time and date helpers ---------- */
+const pad = (n) => String(n).padStart(2, "0");
+function toMin(t) {
+  if (typeof t === "number") return t;
+  const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || "").trim());
+  return m ? (+m[1]) * 60 + (+m[2]) : NaN;
+}
+function hhmm(m) { m = ((Math.round(m) % 1440) + 1440) % 1440; return pad(Math.floor(m / 60)) + ":" + pad(m % 60); }
+function dur(min) { min = Math.round(min); const hh = Math.floor(min / 60), mm = min % 60; return hh ? (mm ? `${hh}h ${mm}m` : `${hh}h`) : `${mm}m`; }
+function dkey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function pdate(k) { const [y, m, d] = String(k).split("-").map(Number); return new Date(y, (m || 1) - 1, d || 1); }
+function mondayOf(d) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function uid(p) { return (p || "x") + "-" + Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); }
+function sortBy(arr, f) { return arr.slice().sort((a, b) => { const x = f(a), y = f(b); return x < y ? -1 : x > y ? 1 : 0; }); }
+const pillarOf = (p) => (PILLARS[p] ? p : "other");
+const withDefaults = (config) => ({ ...DEFAULT_CONFIG, ...(config || {}) });
+
+/** A start/end pair in minutes after midnight; an end at or before the start means it crosses midnight. */
+function span(a, b) {
+  const s = toMin(a); let e = toMin(b);
+  if (isNaN(s) || isNaN(e)) return null;
+  if (e <= s) e += 1440;
+  return [s, e];
+}
+function dayWindow(c) {
+  const wake = toMin(c.wake), bedRaw = toMin(c.bed);
+  const w0 = isNaN(wake) ? 450 : wake;
+  let w1 = isNaN(bedRaw) ? 1410 : bedRaw;
+  if (w1 <= w0) w1 += 1440;
+  return [w0, w1];
+}
+function windowFor(c, when) {
+  const [w0, w1] = dayWindow(c);
+  const win = c.windows && c.windows[when];
+  if (!win) return [w0, w1];
+  const sp = span(win[0], win[1]);
+  return sp ? [Math.max(w0, sp[0]), Math.min(w1, sp[1])] : [w0, w1];
+}
+/** Where a week sits relative to now: already over, current (with today's index), or still ahead. */
+function weekPosition(weekStart, now = new Date()) {
+  const mon = mondayOf(now);
+  const diff = Math.round((weekStart - mon) / 86400000);
+  if (diff > 0) return { kind: "future", today: -1, nowMin: 0 };
+  if (diff < 0) return { kind: "past", today: 7, nowMin: 0 };
+  return { kind: "current", today: (now.getDay() + 6) % 7, nowMin: now.getHours() * 60 + now.getMinutes() };
+}
+
+/** Weekly commitments and one-off events, as blocks the planner must work around. */
+function fixedBlocksFor(state, weekStart) {
+  const out = [];
+  for (const cm of Object.values(state.commitments || {})) {
+    const sp = span(cm.start, cm.end); if (!sp) continue;
+    for (const d of (cm.days || [])) {
+      if (d < 0 || d > 6) continue;
+      out.push({ d, s: sp[0], e: sp[1], title: cm.title || "Commitment", where: cm.where || "", pillar: pillarOf(cm.pillar), src: "fixed", ref: cm.id });
+    }
+  }
+  const wk0 = dkey(weekStart), wk6 = dkey(addDays(weekStart, 6));
+  for (const ev of Object.values(state.events || {})) {
+    if (!ev.date || ev.date < wk0 || ev.date > wk6) continue;
+    const sp = span(ev.start, ev.end); if (!sp) continue;
+    const d = Math.round((pdate(ev.date) - weekStart) / 86400000);
+    out.push({ d, s: sp[0], e: sp[1], title: ev.title || "Event", where: ev.where || "", pillar: pillarOf(ev.pillar), src: "fixed", ref: ev.id, oneoff: true });
+  }
+  return out;
+}
+
+/**
+ * Lay out one week.
+ *
+ * @param {object}  input
+ * @param {object}  input.state     {config, goals, commitments, events, tasks, plans} keyed by id
+ * @param {Date}    input.weekStart the Monday of the week to plan
+ * @param {object} [input.existing] the plan already saved for that week (done blocks are kept)
+ * @param {Date}   [input.now]      "now", for deciding what is already in the past
+ * @returns {{weekStart: string, blocks: object[], unplaced: object[], savedAt: number, by: string}}
+ *
+ * Order of placement, most protected first:
+ *   fixed items -> meals -> protected goals -> tasks (by due date) -> remaining goals
+ */
+function planWeek({ state, weekStart, existing = null, now = new Date(), by = "planner" }) {
+  const c = withDefaults(state.config), [W0, W1] = dayWindow(c);
+  const buf = Math.max(0, +c.buffer || 0);
+  const maxChunk = Math.max(30, +c.maxChunk || 120);
+  const pos = weekPosition(weekStart, now);
+
+  // When each day opens for new blocks. Past days and past hours stay untouched.
+  const open = [];
+  for (let d = 0; d < 7; d++) {
+    if (pos.kind === "future") open[d] = W0;
+    else if (pos.kind === "past" || d < pos.today) open[d] = Infinity;
+    else if (d === pos.today) open[d] = Math.max(W0, Math.ceil((pos.nowMin + 10) / 15) * 15);
+    else open[d] = W0;
+  }
+
+  const prev = (existing && existing.blocks) || [];
+  const kept = prev.filter((b) => b.src !== "fixed" && (b.done || b.e <= open[b.d]));
+  const doneFixed = new Set(prev.filter((b) => b.src === "fixed" && b.done).map((b) => b.ref + "@" + b.d));
+  const blocks = [];
+  const busy = [[], [], [], [], [], [], []];
+  const add = (b) => { const nb = { id: b.id || uid("b"), done: false, ...b }; blocks.push(nb); busy[nb.d].push([nb.s, nb.e]); return nb; };
+
+  for (const f of fixedBlocksFor(state, weekStart)) add({ ...f, done: doneFixed.has(f.ref + "@" + f.d) });
+  for (const k of kept) add(k);
+
+  /** First (or last, when `late`) free gap of `need` minutes on day `d` inside [lo, hi]. */
+  function findSlot(d, need, lo, hi, late) {
+    lo = Math.max(lo, open[d], W0); hi = Math.min(hi, W1);
+    if (!(hi - lo >= need)) return null;
+    const iv = busy[d].map(([s, e]) => [s - buf, e + buf]).sort((a, b) => a[0] - b[0]);
+    const gaps = []; let cur = lo;
+    for (const [s, e] of iv) {
+      if (e <= cur) continue;
+      if (s > cur) gaps.push([cur, Math.min(s, hi)]);
+      cur = Math.max(cur, e);
+      if (cur >= hi) break;
+    }
+    if (cur < hi) gaps.push([cur, hi]);
+    const fits = gaps.map(([a, b]) => [Math.ceil(a / 5) * 5, Math.floor(b / 5) * 5]).filter(([a, b]) => b - a >= need);
+    if (!fits.length) return null;
+    if (late) { const g = fits[fits.length - 1]; return [g[1] - need, g[1]]; }
+    return [fits[0][0], fits[0][0] + need];
+  }
+  const load = (d) => busy[d].reduce((t, [s, e]) => t + (e - s), 0);
+  const openDays = () => [0, 1, 2, 3, 4, 5, 6].filter((d) => open[d] < W1);
+  const unplaced = [];
+
+  // Meals anchor the day, so they go in before anything flexible.
+  for (const d of openDays()) for (const m of (c.meals || [])) {
+    const sp = span(m.from, m.to), need = Math.max(10, +m.minutes || 30); if (!sp) continue;
+    if (kept.some((b) => b.d === d && b.src === "meal" && b.title === m.name)) continue;
+    const slot = findSlot(d, need, sp[0], sp[1], false);
+    if (slot) add({ d, s: slot[0], e: slot[1], title: m.name, pillar: "meals", src: "meal", ref: "meal:" + m.name });
+  }
+
+  function placeGoal(g) {
+    const need = Math.max(15, +g.minutes || 60);
+    let remaining = Math.max(0, Math.round(+g.count || 0)) - blocks.filter((b) => b.ref === g.id).length;
+    if (remaining <= 0) return;
+    const [lo, hi] = windowFor(c, g.when || "any");
+    const [alo, ahi] = windowFor(c, "any");
+    const e0 = toMin(g.earliest), l0 = toMin(g.latest);
+    const clampLo = isNaN(e0) ? -Infinity : e0, clampHi = isNaN(l0) ? Infinity : (l0 < W0 ? l0 + 1440 : l0);
+    const allowed = openDays().filter((d) => !Array.isArray(g.days) || !g.days.length || g.days.includes(d));
+    while (remaining > 0) {
+      // Spread sessions out: fewest of this goal already that day, then away from
+      // neighbouring days, then whichever day is least booked.
+      const perDay = (d) => blocks.filter((b) => b.ref === g.id && b.d === d).length;
+      const adj = (d) => perDay(d - 1) + perDay(d + 1);
+      const order = sortBy(allowed, (d) => [pad(perDay(d)), pad(adj(d)), String(load(d)).padStart(5, "0"), d].join("|"));
+      let placed = null;
+      for (const pass of [0, 1]) {
+        if (pass === 1 && g.strict) break;   // strict goals never fall outside their window
+        const [a, b] = pass === 0 ? [lo, hi] : [alo, ahi];
+        for (const d of order) {
+          const slot = findSlot(d, need, Math.max(a, clampLo), Math.min(b, clampHi), !!g.late);
+          if (slot) { placed = add({ d, s: slot[0], e: slot[1], title: g.label || "Goal", pillar: pillarOf(g.pillar), src: "goal", ref: g.id }); break; }
+        }
+        if (placed) break;
+      }
+      if (!placed) { unplaced.push({ title: g.label, why: `${remaining} of ${g.count} sessions didn't fit` }); break; }
+      remaining--;
+    }
+  }
+
+  const goals = sortBy(Object.values(state.goals || {}), (g) =>
+    [g.protect ? 0 : 1, Array.isArray(g.days) && g.days.length ? 0 : 1, String(g.order ?? 99).padStart(3, "0")].join("|"));
+  for (const g of goals.filter((g) => g.protect)) placeGoal(g);
+
+  // Tasks: earliest due date first, split into chunks, spread across the days before the due date.
+  const wk0 = dkey(weekStart), wkEnd = dkey(addDays(weekStart, 6));
+  const nowPos = weekPosition(mondayOf(now), now), curKey = dkey(mondayOf(now));
+  const ahead = pos.kind === "future"
+    ? Object.values(state.plans || {}).filter((p) => p.weekStart >= curKey && p.weekStart < dkey(weekStart))
+    : [];
+  const plannedAhead = (id) => ahead.reduce((a, p) => a + (p.blocks || []).filter((b) => b.ref === id && !b.done &&
+    (p.weekStart > curKey || b.d > nowPos.today || (b.d === nowPos.today && b.s >= nowPos.nowMin))).reduce((x, b) => x + (b.e - b.s), 0), 0);
+
+  const tasks = sortBy(Object.values(state.tasks || {}).filter((t) => !t.done), (t) =>
+    [t.due || "9999-12-31", t.priority || 2, String(t.createdAt || 0).padStart(15, "0")].join("|"));
+  for (const t of tasks) {
+    if (t.due && t.due < wk0 && pos.kind !== "current") continue;
+    let left = Math.max(10, +t.minutes || 30)
+      - blocks.filter((b) => b.ref === t.id).reduce((a, b) => a + (b.e - b.s), 0)
+      - plannedAhead(t.id);
+    if (left <= 0) continue;
+    const lastDay = t.due && t.due <= wkEnd ? Math.max(0, Math.round((pdate(t.due) - weekStart) / 86400000)) : 6;
+    const days = openDays();
+    const before = days.filter((d) => d <= lastDay), after = days.filter((d) => d > lastDay);
+    let guard = 0;
+    while (left > 0 && guard++ < 20) {
+      const chunk = Math.min(left, maxChunk);
+      const onDay = (d) => blocks.filter((b) => b.ref === t.id && b.d === d).length;
+      let placed = null;
+      for (const d of [...sortBy(before, (d) => onDay(d) * 10 + d), ...after]) {
+        const slot = findSlot(d, chunk, W0, W1, false);
+        if (slot) { placed = add({ d, s: slot[0], e: slot[1], title: t.title, pillar: pillarOf(t.pillar), src: "task", ref: t.id, late: d > lastDay }); break; }
+      }
+      if (!placed) { unplaced.push({ title: t.title, why: `${dur(left)} didn't fit this week` }); break; }
+      left -= chunk;
+    }
+  }
+
+  for (const g of goals.filter((g) => !g.protect)) placeGoal(g);
+
+  blocks.sort((a, b) => a.d - b.d || a.s - b.s);
+  return { weekStart: dkey(weekStart), blocks, unplaced, savedAt: Date.now(), by };
+}
+
+/** Planned / done / target per goal, plus task counts and hours per area, for one week. */
+function weekStats(state, plan, weekStart) {
+  const blocks = (plan && plan.blocks) || [];
+  const goals = sortBy(Object.values(state.goals || {}), (g) => String(g.order ?? 99).padStart(3, "0") + (g.label || ""));
+  const rows = goals.map((g) => {
+    const bs = blocks.filter((b) => b.ref === g.id);
+    return { g, planned: bs.length, done: bs.filter((b) => b.done).length, target: Math.max(0, +g.count || 0), minutes: +g.minutes || 0 };
+  });
+  const wk0 = dkey(weekStart), wk6 = dkey(addDays(weekStart, 6));
+  const dueThisWeek = Object.values(state.tasks || {}).filter((t) => t.due && t.due >= wk0 && t.due <= wk6);
+  const hours = {};
+  for (const b of blocks) hours[b.pillar] = (hours[b.pillar] || 0) + (b.e - b.s) / 60;
+  return { rows, tasksDue: dueThisWeek.length, tasksDone: dueThisWeek.filter((t) => t.done).length, hours };
+}
+
+/* App shell: state, DOM helpers and storage.
+ * Time/date helpers, PILLARS, DAYS and the planner itself come from
+ * src/shared/engine.js, which the build inlines above this file.
+ *
+ * Storage has three modes, decided at startup:
+ *   api    - served by the backend in this repo (server/), data in its database
+ *   live   - published as a Claude artifact, data in the artifact's database
+ *   local  - opened as a plain file, data in this browser only
+ */
+(() => {
+"use strict";
+
+/* Used only in local mode, so the page has something to show. */
+const LOCAL_STARTER = {
+  config: { ...DEFAULT_CONFIG, rules: "Example rules. Protect sleep. Deep work in the mornings. Saturday night is free." },
+  goals: {
+    "g-belay-deep": { pillar: "belay", label: "Belay deep work", count: 5, minutes: 120, when: "morning", protect: true, order: 1 },
+    "g-gym": { pillar: "gym", label: "Lift", count: 4, minutes: 75, when: "evening", protect: true, order: 2 },
+    "g-study": { pillar: "class", label: "Study & homework", count: 6, minutes: 90, when: "afternoon", order: 3 },
+    "g-leetcode": { pillar: "career", label: "LeetCode", count: 5, minutes: 45, when: "any", order: 4 },
+    "g-free": { pillar: "free", label: "Free time", count: 7, minutes: 60, when: "evening", protect: true, late: true, order: 5 },
+  },
+  commitments: {
+    "c-ex1": { title: "Example class", pillar: "class", days: [0, 2, 4], start: "10:10", end: "11:00", where: "Example" },
+    "c-ex2": { title: "Example TA lab", pillar: "work", days: [1], start: "13:25", end: "15:20", where: "Example" },
+  },
+  events: {},
+  tasks: { "t-ex1": { title: "Example task", pillar: "belay", minutes: 45, due: "", priority: 2, done: false, createdAt: 1 } },
+  plans: {},
+};
+
+/* ---------- DOM helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "style" && typeof v === "object") { for (const [sk, sv] of Object.entries(v)) { if (sk.startsWith("--")) n.style.setProperty(sk, sv); else n.style[sk] = sv; } }
+    else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else if (k === "text") n.textContent = v;
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) n.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return n;
+}
+function fmt(m) {
+  m = ((Math.round(m) % 1440) + 1440) % 1440;
+  const hr = Math.floor(m / 60), mi = m % 60, ap = hr < 12 ? "a" : "p", h12 = ((hr + 11) % 12) + 1;
+  return h12 + (mi ? ":" + pad(mi) : "") + ap;
+}
+const fmtRange = (s, e) => fmt(s) + "–" + fmt(e);
+const clone = (o) => JSON.parse(JSON.stringify(o ?? null));
+const cvar = (p) => `var(--c-${pillarOf(p)})`;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast._t); toast._t = setTimeout(() => { t.hidden = true; }, 2600);
+}
+
+/* ---------- State ---------- */
+const S = {
+  config: null, goals: {}, commitments: {}, events: {}, tasks: {}, plans: {},
+  briefs: [], proposals: [],
+  week: mondayOf(new Date()), day: (new Date().getDay() + 6) % 7,
+  tab: "tasks", mode: "connecting", loaded: false,
+};
+const cfg = () => withDefaults(S.config);
+const weekKey = () => dkey(S.week);
+const currentPlan = () => S.plans[weekKey()] || null;
+/** The plain object the shared engine works on. */
+const snapshot = () => ({ config: cfg(), goals: S.goals, commitments: S.commitments, events: S.events, tasks: S.tasks, plans: S.plans });
+
+/* ---------- Storage ---------- */
+const LS_KEY = "amer-os-local-v1";
+const Store = {
+  db: null, api: null, queues: new Map(),
+
+  enqueue(path, fn) {
+    const prev = this.queues.get(path) || Promise.resolve();
+    const next = prev.catch(() => {}).then(fn);
+    this.queues.set(path, next);
+    return next;
+  },
+  async write(coll, id, data) {
+    const body = clone(data); delete body.id;
+    if (coll === "config") S.config = body; else S[coll][id] = { ...body, id };
+    render();
+    if (this.api) return this.enqueue(coll + "/" + id, () => this.apiFetch(`/${coll}/${id}`, { method: "PUT", body })).catch((e) => this.fail(e));
+    if (this.db) {
+      const path = coll === "config" ? "config/main" : coll + "/" + id;
+      return this.enqueue(path, () => this.db.doc(path).set(body)).catch((e) => this.fail(e));
+    }
+    this.saveLocal();
+  },
+  async remove(coll, id) {
+    delete S[coll][id]; render();
+    if (this.api) return this.enqueue(coll + "/" + id, () => this.apiFetch(`/${coll}/${id}`, { method: "DELETE" })).catch((e) => this.fail(e));
+    if (this.db) return this.enqueue(coll + "/" + id, () => this.db.doc(coll + "/" + id).delete()).catch((e) => this.fail(e));
+    this.saveLocal();
+  },
+  async setRaw(path, body) {
+    if (this.api) return this.apiFetch("/" + path, { method: "PUT", body }).catch((e) => this.fail(e));
+    if (this.db) return this.enqueue(path, () => this.db.doc(path).set(body)).catch((e) => this.fail(e));
+  },
+  fail(e) {
+    const code = e && e.code;
+    if (code === "unauthorized") { showAuth(); return; }
+    if (code === "quota_exceeded") toast("Storage is full. Delete some old tasks or plans.");
+    else if (code === "invalid_argument") toast("You can view this planner but not change it.");
+    else toast("Couldn't save. Check your connection and try again.");
+    console.warn("save failed", e);
+  },
+
+  /* --- backend mode --- */
+  async apiFetch(path, { method = "GET", body, signal } = {}) {
+    const res = await fetch(this.api + path, {
+      method, signal,
+      credentials: "same-origin",        // the session cookie rides along
+      headers: { "content-type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    if (res.status === 401) throw { code: "unauthorized", message: "Wrong or missing access key" };
+    if (!res.ok) throw { code: "http_" + res.status, message: await res.text().catch(() => res.statusText) };
+    return res.status === 204 ? null : res.json();
+  },
+  async loadFromApi() {
+    const state = await this.apiFetch("/state");
+    S.config = state.config || null;
+    for (const c of COLLECTIONS) S[c] = state[c] || {};
+    S.briefs = state.briefs || [];
+    S.proposals = state.proposals || [];
+    S.loaded = true; S.mode = "api"; render();
+  },
+  /* --- browser-only mode --- */
+  saveLocal() {
+    clearTimeout(this._lt);
+    this._lt = setTimeout(() => {
+      try { localStorage.setItem(LS_KEY, JSON.stringify({ config: S.config, goals: S.goals, commitments: S.commitments, events: S.events, tasks: S.tasks, plans: S.plans })); } catch (_) {}
+    }, 300);
+  },
+  loadLocal() {
+    let data = null;
+    try { data = JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch (_) {}
+    data = data || clone(LOCAL_STARTER);
+    S.config = data.config || { ...DEFAULT_CONFIG };
+    for (const c of COLLECTIONS) {
+      S[c] = {};
+      for (const [id, v] of Object.entries(data[c] || {})) S[c][id] = { ...v, id };
+    }
+  },
+
+  async init() {
+    // 1. Served by the backend in this repo?
+    if (window.AMER_API) {
+      this.api = window.AMER_API;
+      try {
+        await this.loadFromApi();
+        loadConnections();
+      } catch (e) {
+        if (e && e.code === "unauthorized") showAuth();               // sign in, then we load
+        else { toast("Can't reach the server. Showing a local copy."); this.api = null; }
+      }
+      if (this.api) { setInterval(() => { if (!$("#authOverlay").hidden) return; this.loadFromApi().catch(() => {}); }, 60000); return; }
+    }
+    // 2. Published as a Claude artifact?
+    let db = null;
+    try { db = window.claude && typeof window.claude.use === "function" ? await window.claude.use("db") : null; } catch (_) { db = null; }
+    if (!db) { this.loadLocal(); S.mode = "local"; S.loaded = true; render(); return; }
+
+    this.db = db; S.mode = "live";
+    const pending = new Set(["config", ...COLLECTIONS]);
+    const done = (k) => { if (pending.delete(k) && !pending.size) S.loaded = true; render(); };
+    const onErr = (e) => { if (e && e.code === "revoked") { S.mode = "revoked"; render(); } else console.warn("db", e); };
+    db.doc("config/main").onSnapshot((s) => { S.config = s.exists ? { ...s.data() } : null; done("config"); }, onErr);
+    for (const c of COLLECTIONS) {
+      db.collection(c).onSnapshot((snap) => {
+        const next = {};
+        for (const d of snap.docs) next[d.id] = { ...d.data(), id: d.id };
+        S[c] = next; done(c);
+      }, onErr);
+    }
+    db.collection("briefs").orderBy("createdAt", "desc").limit(5).onSnapshot((snap) => {
+      S.briefs = snap.docs.map((d) => ({ ...d.data(), id: d.id })); render();
+    }, onErr);
+    db.collection("proposals").where("status", "==", "pending").onSnapshot((snap) => {
+      S.proposals = sortBy(snap.docs.map((d) => ({ ...d.data(), id: d.id })), (p) => -(p.createdAt || 0)); render();
+    }, onErr);
+  },
+};
+
+
+/* Thin wrappers so the rest of the page can call the shared engine
+ * (src/shared/engine.js) without passing state around by hand. */
+function buildPlan(weekStart, existing) {
+  return planWeek({ state: snapshot(), weekStart, existing, now: new Date() });
+}
+function statsFor(plan) {
+  return weekStats(snapshot(), plan, S.week);
+}
+
+
+/* ---------- Rendering ---------- */
+let renderQueued = false;
+function render() {
+  if (renderQueued) return;
+  renderQueued = true;
+  setTimeout(() => { renderQueued = false; try { renderAll(); } catch (e) { console.error(e); } }, 0);
+}
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const md = (d) => MONTHS[d.getMonth()] + " " + d.getDate();
+const CHECK_SVG = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7"/></svg>';
+
+function renderAll() {
+  renderHeader(); renderScore(); renderLegend(); renderPlan(); renderToday(); renderAgentSide(); renderConnections(); renderTabList();
+}
+
+function renderHeader() {
+  const pos = weekPosition(S.week), end = addDays(S.week, 6);
+  const rel = pos.kind === "current" ? "This week" : pos.kind === "past" ? "Past week" : (Math.round((S.week - mondayOf(new Date())) / 864e5) === 7 ? "Next week" : "Upcoming");
+  $("#weekLabel").textContent = `${md(S.week)} – ${S.week.getMonth() === end.getMonth() ? end.getDate() : md(end)}`;
+  $("#weekLabel").title = rel;
+  $("#planTitle").textContent = rel;
+  const plan = currentPlan(), btn = $("#planBtn");
+  btn.disabled = pos.kind === "past" || !S.loaded;
+  btn.textContent = pos.kind === "past" ? "Week is over" : plan ? (pos.kind === "current" ? "Replan rest of week" : "Replan week") : (pos.kind === "current" ? "Plan this week" : "Plan this week ahead");
+  const st = $("#status");
+  st.className = "status " + (S.mode === "live" || S.mode === "api" ? "live" : S.mode === "local" ? "local" : "");
+  st.lastElementChild.textContent = S.mode === "live" ? "Saved to your account"
+    : S.mode === "api" ? "Saved to your server"
+    : S.mode === "local" ? "Local preview" : S.mode === "revoked" ? "Read-only" : "Connecting…";
+  const ban = $("#banner");
+  ban.hidden = S.mode !== "local";
+  if (S.mode === "local") ban.textContent = "Local preview: open this page in Claude to save to your account and use Ask Claude. The rows here are examples.";
+}
+
+function renderScore() {
+  const box = $("#score"); box.replaceChildren();
+  const st = statsFor(currentPlan());
+  if (!st.rows.length) box.append(h("div", { class: "empty" }, "No goals yet. Add them in the Goals tab below."));
+  for (const r of st.rows) {
+    const pct = (n) => (r.target ? Math.min(100, (n / r.target) * 100) : 0) + "%";
+    box.append(h("div", { class: "goal", style: { "--c": cvar(r.g.pillar) } },
+      h("div", { class: "row" },
+        h("div", { class: "name" }, h("i", { class: "dot" }), h("span", { text: r.g.label || "Goal", title: r.g.label || "" })),
+        h("div", { class: "num" }, String(r.done), h("small", null, " / " + r.target))),
+      h("div", { class: "bar", role: "img", "aria-label": `${r.done} done, ${r.planned} planned, target ${r.target}` },
+        h("i", { style: { width: pct(r.planned) } }), h("b", { style: { width: pct(r.done) } })),
+      h("div", { class: "note" }, `${r.planned} planned · ${dur(r.minutes)} each${r.g.protect ? " · protected" : ""}`)));
+  }
+  box.append(h("div", { class: "goal", style: { "--c": "var(--ink)" } },
+    h("div", { class: "row" }, h("div", { class: "name" }, h("span", { text: "Tasks due this week" })),
+      h("div", { class: "num" }, String(st.tasksDone), h("small", null, " / " + st.tasksDue))),
+    h("div", { class: "bar" }, h("b", { style: { width: (st.tasksDue ? (st.tasksDone / st.tasksDue) * 100 : 0) + "%" } })),
+    h("div", { class: "note" }, `Sleep window ${cfg().bed ? fmt(toMin(cfg().bed)) : "?"}–${cfg().wake ? fmt(toMin(cfg().wake)) : "?"}`)));
+}
+
+function renderLegend() {
+  const st = statsFor(currentPlan()), box = $("#legend"); box.replaceChildren();
+  for (const p of PKEYS) {
+    const hrs = st.hours[p]; if (!hrs) continue;
+    box.append(h("span", { class: "chip", style: { "--c": cvar(p) } }, h("i", { class: "dot" }), `${PILLARS[p].label} ${Math.round(hrs * 10) / 10}h`));
+  }
+}
+
+function layoutLanes(list) {
+  const items = sortBy(list, (b) => b.s * 10000 + (b.e - b.s));
+  let cluster = [], clusterEnd = -1;
+  const flush = () => {
+    const lanes = [];
+    for (const b of cluster) {
+      let i = lanes.findIndex((end) => end <= b.s);
+      if (i < 0) { i = lanes.length; lanes.push(0); }
+      lanes[i] = b.e; b._lane = i;
+    }
+    for (const b of cluster) b._lanes = lanes.length;
+    cluster = [];
+  };
+  for (const b of items) { if (b.s >= clusterEnd && cluster.length) flush(); cluster.push(b); clusterEnd = Math.max(clusterEnd, b.e); }
+  if (cluster.length) flush();
+  return items;
+}
+
+function blockSub(b) {
+  if (b.src === "fixed") return b.where || (b.oneoff ? "One-off event" : "Weekly schedule");
+  if (b.src === "task") return "Task" + (b.late ? " · after due date" : "");
+  if (b.src === "goal") return "Goal";
+  if (b.src === "meal") return "Meal";
+  return "";
+}
+
+function renderPlan() {
+  const plan = currentPlan(), blocks = (plan && plan.blocks) || [], c = cfg(), [W0, W1] = dayWindow(c);
+  const pos = weekPosition(S.week);
+  $("#planMeta").replaceChildren();
+  if (plan) {
+    const t = new Date(plan.savedAt || Date.now());
+    const who = plan.by === "claude" ? "Claude" : plan.by === "autopilot" ? "Sunday autopilot" : "the planner";
+    $("#planMeta").append(`Planned by ${who} · ${DAYS[(t.getDay() + 6) % 7]} ${fmt(t.getHours() * 60 + t.getMinutes())}`);
+    if (plan.unplaced && plan.unplaced.length) {
+      const det = h("details", { style: { marginTop: "4px" } }, h("summary", { style: { cursor: "pointer", color: "var(--warn)" } }, `${plan.unplaced.length} didn't fit`),
+        h("ul", { style: { margin: "4px 0 0", paddingLeft: "18px" } }, plan.unplaced.map((u) => h("li", null, `${u.title}: ${u.why}`))));
+      $("#planMeta").append(det);
+    }
+  } else $("#planMeta").append(pos.kind === "past" ? "No plan was saved for this week." : "No plan yet. Press the plan button to lay out the week.");
+
+  // Desktop grid
+  let lo = W0, hi = W1;
+  for (const b of blocks) { lo = Math.min(lo, b.s); hi = Math.max(hi, b.e); }
+  lo = Math.floor(lo / 60) * 60; hi = Math.ceil(hi / 60) * 60;
+  const PX = 0.8, H = (hi - lo) * PX;
+  const grid = h("div", { class: "week", style: { "--hour": 60 * PX + "px" } });
+  grid.append(h("div", { class: "whead" }));
+  for (let d = 0; d < 7; d++) {
+    const date = addDays(S.week, d), isToday = pos.kind === "current" && d === pos.today;
+    const mins = blocks.filter((b) => b.d === d && b.src !== "meal").reduce((a, b) => a + (b.e - b.s), 0);
+    grid.append(h("div", { class: "whead" + (isToday ? " today" : "") },
+      h("div", { class: "d" }, DAYS[d] + " " + date.getDate()), h("div", { class: "load" }, mins ? dur(mins) + " booked" : "open")));
+  }
+  const tcol = h("div", { class: "tcol", style: { height: H + "px" } });
+  for (let m = lo + 60; m < hi; m += 60) tcol.append(h("div", { class: "tick", style: { top: (m - lo) * PX + "px" } }, fmt(m)));
+  grid.append(tcol);
+  for (let d = 0; d < 7; d++) {
+    const isToday = pos.kind === "current" && d === pos.today;
+    const col = h("div", { class: "dcol" + (isToday ? " today" : ""), style: { height: H + "px" } });
+    for (const b of layoutLanes(blocks.filter((x) => x.d === d))) {
+      const top = (b.s - lo) * PX, ht = Math.max(14, (b.e - b.s) * PX - 2);
+      const w = 100 / b._lanes;
+      const el = h("button", {
+        class: "blk" + (b.src === "fixed" ? " fixed" : "") + (b.done ? " done" : "") + (ht < 30 ? " tiny" : ""),
+        style: { top: top + "px", height: ht + "px", "--c": cvar(b.pillar), left: `calc(${b._lane * w}% + 3px)`, width: `calc(${w}% - 6px)`, right: "auto" },
+        title: `${b.title} · ${fmtRange(b.s, b.e)}`, onclick: (ev) => openBlock(b, ev.currentTarget),
+      }, h("span", { class: "t" }, b.title), h("span", { class: "tm" }, fmtRange(b.s, b.e)));
+      col.append(el);
+    }
+    if (isToday && pos.nowMin >= lo && pos.nowMin <= hi) col.append(h("div", { class: "nowline", style: { top: (pos.nowMin - lo) * PX + "px" } }));
+    grid.append(col);
+  }
+  $("#gridWrap").replaceChildren(grid);
+
+  // Phone: day tabs + agenda
+  const tabs = $("#dayTabs"); tabs.replaceChildren();
+  for (let d = 0; d < 7; d++) {
+    tabs.append(h("button", { class: "btn small", "aria-pressed": String(S.day === d), onclick: () => { S.day = d; render(); } }, DAYS[d] + " " + addDays(S.week, d).getDate()));
+  }
+  $("#mobileAgenda").replaceChildren(agendaList(plan, S.week, S.day, "Nothing planned this day."));
+}
+
+function agendaList(plan, weekStart, d, emptyText) {
+  const blocks = sortBy(((plan && plan.blocks) || []).filter((b) => b.d === d), (b) => b.s);
+  const list = h("div", { class: "agenda" });
+  if (!blocks.length) { list.append(h("div", { class: "empty" }, emptyText)); return list; }
+  for (const b of blocks) {
+    const chk = h("button", { class: "check", "aria-pressed": String(!!b.done), "aria-label": (b.done ? "Mark not done: " : "Mark done: ") + b.title, onclick: () => toggleDone(plan, b) });
+    chk.innerHTML = CHECK_SVG;
+    list.append(h("div", { class: "item" + (b.done ? " done" : ""), style: { "--c": cvar(b.pillar) } },
+      chk, h("div", { class: "what" }, b.title, h("small", null, blockSub(b))), h("div", { class: "when" }, fmtRange(b.s, b.e))));
+  }
+  return list;
+}
+
+function renderToday() {
+  const now = new Date(), mon = mondayOf(now), plan = S.plans[dkey(mon)] || null, d = (now.getDay() + 6) % 7;
+  $("#todayTitle").textContent = "Today · " + DAYS[d] + " " + md(now);
+  const blocks = ((plan && plan.blocks) || []).filter((b) => b.d === d);
+  $("#todayMeta").textContent = blocks.length ? `${blocks.filter((b) => b.done).length}/${blocks.length} done` : "";
+  $("#todayList").replaceChildren(agendaList(plan, mon, d, plan ? "Nothing else planned today." : "Plan this week to fill in today."));
+}
+
+async function toggleDone(plan, b) {
+  if (!plan) return;
+  const blocks = plan.blocks.map((x) => (x.id === b.id ? { ...x, done: !x.done } : x));
+  await Store.write("plans", plan.weekStart, { ...plan, blocks });
+}
+
+/* ---------- Block popover ---------- */
+function closePop() { $("#pop").hidden = true; }
+function openBlock(b, anchor) {
+  const plan = currentPlan(); if (!plan) return;
+  const pop = $("#pop"); pop.replaceChildren();
+  const date = addDays(S.week, b.d);
+  pop.append(
+    h("div", null, h("span", { class: "chip", style: { "--c": cvar(b.pillar) } }, h("i", { class: "dot" }), PILLARS[pillarOf(b.pillar)].label)),
+    h("h3", null, b.title),
+    h("div", { class: "small muted" }, `${DAYS[b.d]} ${md(date)} · ${fmtRange(b.s, b.e)} · ${blockSub(b)}`));
+  const acts = h("div", { class: "acts" });
+  acts.append(h("button", { class: "btn small primary", onclick: () => { toggleDone(plan, b); closePop(); } }, b.done ? "Mark not done" : "Mark done"));
+  if (b.src === "task" && S.tasks[b.ref] && !S.tasks[b.ref].done) {
+    acts.append(h("button", { class: "btn small", onclick: async () => {
+      closePop();
+      await Store.write("tasks", b.ref, { ...S.tasks[b.ref], done: true, doneAt: Date.now() });
+      const blocks = plan.blocks.map((x) => (x.ref === b.ref && x.d >= b.d ? { ...x, done: x.id === b.id ? true : x.done } : x)).filter((x) => !(x.ref === b.ref && !x.done && x.id !== b.id));
+      await Store.write("plans", plan.weekStart, { ...plan, blocks });
+      toast("Task completed");
+    } }, "Complete task"));
+  }
+  if (b.src !== "fixed") acts.append(h("button", { class: "btn small ghost", onclick: async () => {
+    closePop();
+    await Store.write("plans", plan.weekStart, { ...plan, blocks: plan.blocks.filter((x) => x.id !== b.id) });
+    toast("Removed from plan");
+  } }, "Remove"));
+  acts.append(h("button", { class: "btn small ghost", onclick: closePop }, "Close"));
+  pop.append(acts);
+  pop.hidden = false;
+  const r = anchor.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+  let x = Math.min(window.innerWidth - pw - 16, Math.max(16, r.left));
+  let y = r.bottom + 6; if (y + ph > window.innerHeight - 16) y = Math.max(16, r.top - ph - 6);
+  pop.style.left = x + "px"; pop.style.top = y + "px";
+  pop.querySelector("button").focus();
+}
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePop(); });
+document.addEventListener("click", (e) => { const p = $("#pop"); if (!p.hidden && !p.contains(e.target) && !e.target.closest(".blk")) closePop(); });
+
+
+/* ---------- Setup tabs ---------- */
+const PRIORITY = [[1, "High"], [2, "Normal"], [3, "Low"]];
+const WHEN = [["morning", "Morning"], ["afternoon", "Afternoon"], ["evening", "Evening"], ["any", "Any time"]];
+const SPECS = {
+  tasks: { coll: "tasks", noun: "task", fields: [
+    { k: "title", label: "Task", type: "text", wide: true, req: true, ph: "e.g. Apply to Jane Street SWE intern" },
+    { k: "pillar", label: "Area", type: "pillar", def: "belay" },
+    { k: "minutes", label: "Time needed (min)", type: "number", def: 60 },
+    { k: "due", label: "Due", type: "date" },
+    { k: "priority", label: "Priority", type: "select", options: PRIORITY, def: 2, num: true }] },
+  events: { coll: "events", noun: "event", fields: [
+    { k: "title", label: "Event", type: "text", wide: true, req: true, ph: "e.g. Meeting with Aziz, CSE midterm" },
+    { k: "pillar", label: "Area", type: "pillar", def: "other" },
+    { k: "date", label: "Date", type: "date", req: true },
+    { k: "start", label: "Start", type: "time", req: true },
+    { k: "end", label: "End", type: "time", req: true },
+    { k: "where", label: "Where", type: "text" }] },
+  commitments: { coll: "commitments", noun: "weekly item", fields: [
+    { k: "title", label: "Class, shift or meeting", type: "text", wide: true, req: true, ph: "e.g. CSE 2050 lecture, CSE 1010 lab (TA), ITS shift" },
+    { k: "pillar", label: "Area", type: "pillar", def: "class" },
+    { k: "days", label: "Days", type: "days", wide: true, req: true },
+    { k: "start", label: "Start", type: "time", req: true },
+    { k: "end", label: "End", type: "time", req: true },
+    { k: "where", label: "Where", type: "text" }] },
+  goals: { coll: "goals", noun: "goal", fields: [
+    { k: "label", label: "Goal", type: "text", wide: true, req: true, ph: "e.g. LeetCode, Lift, Belay deep work" },
+    { k: "pillar", label: "Area", type: "pillar", def: "career" },
+    { k: "count", label: "Sessions per week", type: "number", def: 3 },
+    { k: "minutes", label: "Minutes each", type: "number", def: 60 },
+    { k: "when", label: "Best time", type: "select", options: WHEN, def: "any" },
+    { k: "days", label: "Only on (optional)", type: "days", wide: true },
+    { k: "earliest", label: "Not before (optional)", type: "time" },
+    { k: "latest", label: "Not after (optional)", type: "time" },
+    { k: "protect", label: "Protect (schedule before tasks)", type: "check" },
+    { k: "late", label: "Place late in the day", type: "check" }] },
+};
+
+function setTab(tab) {
+  S.tab = tab;
+  for (const b of document.querySelectorAll("#tabs button")) b.setAttribute("aria-selected", String(b.dataset.tab === tab));
+  const body = $("#tabBody"); body.replaceChildren();
+  if (tab === "rules") { body.append(rulesForm()); return; }
+  const spec = SPECS[tab];
+  body.append(h("div", { class: "list", id: "tabList" }), buildForm(tab, spec));
+  resetForm(tab);
+  renderTabList();
+}
+
+function metaFor(tab, it) {
+  const bits = [];
+  if (tab === "tasks") {
+    bits.push(dur(+it.minutes || 30));
+    if (it.due) { const late = !it.done && it.due < dkey(new Date()); bits.push((late ? "Overdue · " : "Due ") + md(pdate(it.due))); }
+    bits.push((PRIORITY.find((p) => p[0] === +it.priority) || PRIORITY[1])[1] + " priority");
+  } else if (tab === "events") {
+    bits.push(`${DAYS[(pdate(it.date).getDay() + 6) % 7]} ${md(pdate(it.date))}`, fmtRange(toMin(it.start), toMin(it.end)));
+    if (it.where) bits.push(it.where);
+  } else if (tab === "commitments") {
+    bits.push((it.days || []).slice().sort().map((d) => DAYS[d]).join(" "), fmtRange(toMin(it.start), toMin(it.end)));
+    if (it.where) bits.push(it.where);
+  } else if (tab === "goals") {
+    bits.push(`${it.count}× ${dur(+it.minutes || 60)} / week`, (WHEN.find((w) => w[0] === it.when) || WHEN[3])[1].toLowerCase());
+    if (it.days && it.days.length) bits.push("only " + it.days.map((d) => DAYS[d]).join(" "));
+    if (it.latest) bits.push("not after " + fmt(toMin(it.latest)));
+    if (it.protect) bits.push("protected");
+  }
+  return bits.join(" · ");
+}
+
+function renderTabList() {
+  if (S.tab === "rules") {
+    const f = $("#rulesForm");
+    if (f && !f.contains(document.activeElement) && !f.dataset.dirty) setTab("rules");
+    return;
+  }
+  const box = $("#tabList"); if (!box) return;
+  const spec = SPECS[S.tab]; box.replaceChildren();
+  let items = Object.values(S[spec.coll]);
+  if (S.tab === "tasks") {
+    const open = sortBy(items.filter((t) => !t.done), (t) => (t.due || "9999") + (t.priority || 2));
+    const done = sortBy(items.filter((t) => t.done), (t) => -(t.doneAt || 0)).slice(0, 8);
+    items = [...open, ...done];
+  } else if (S.tab === "events") {
+    const today = dkey(new Date());
+    items = sortBy(items.filter((e) => (e.date || "") >= today), (e) => e.date + e.start);
+  } else if (S.tab === "commitments") items = sortBy(items, (c) => (Math.min(...(c.days || [9])) + "|" + c.start));
+  else items = sortBy(items, (g) => String(g.order ?? 99).padStart(3, "0"));
+  if (!items.length) box.append(h("div", { class: "empty" }, `No ${spec.noun}s yet. Add one below, or tell Claude.`));
+  for (const it of items) {
+    const title = it.title || it.label;
+    const first = S.tab === "tasks"
+      ? (() => { const c = h("button", { class: "check", style: { "--c": cvar(it.pillar) }, "aria-pressed": String(!!it.done), "aria-label": (it.done ? "Reopen: " : "Complete: ") + title,
+          onclick: () => Store.write("tasks", it.id, { ...it, done: !it.done, doneAt: it.done ? null : Date.now() }) }); c.innerHTML = CHECK_SVG; return c; })()
+      : h("i", { class: "dot", style: { "--c": cvar(it.pillar) } });
+    box.append(h("div", { class: "row-item" + (it.done ? " done" : "") },
+      first,
+      h("div", { style: { minWidth: 0 } }, h("div", { class: "ttl", style: { fontWeight: 600 } }, title),
+        h("div", { class: "meta" }, PILLARS[pillarOf(it.pillar)].label + " · " + metaFor(S.tab, it))),
+      h("div", { style: { display: "flex", gap: "4px" } },
+        h("button", { class: "btn small ghost", onclick: () => editItem(S.tab, it) }, "Edit"),
+        h("button", { class: "btn small ghost", "aria-label": "Delete " + title, onclick: () => { Store.remove(spec.coll, it.id); toast("Deleted"); } }, "Delete"))));
+  }
+}
+
+function fieldInput(tab, f) {
+  const id = `f-${tab}-${f.k}`;
+  if (f.type === "pillar" || f.type === "select") {
+    const opts = f.type === "pillar" ? PKEYS.map((p) => [p, PILLARS[p].label]) : f.options;
+    return h("select", { id }, opts.map(([v, l]) => h("option", { value: v }, l)));
+  }
+  if (f.type === "days") return h("div", { class: "days", id }, DAYS.map((d, i) => h("label", null, h("input", { type: "checkbox", value: String(i), id: `${id}-${i}` }), d)));
+  if (f.type === "check") return h("input", { type: "checkbox", id });
+  return h("input", { type: f.type, id, placeholder: f.ph || null, min: f.type === "number" ? "0" : null });
+}
+
+function buildForm(tab, spec) {
+  const form = h("form", { class: "form", id: `form-${tab}`, novalidate: true });
+  for (const f of spec.fields) {
+    const inp = fieldInput(tab, f);
+    if (f.type === "check") form.append(h("label", { class: "f", style: { display: "flex", alignItems: "center", gap: "6px", color: "var(--ink)" } }, inp, f.label));
+    else if (f.type === "days") form.append(h("div", { class: "f label-like" + (f.wide ? " wide" : ""), role: "group", "aria-label": f.label }, h("span", null, f.label), inp));
+    else form.append(h("label", { class: "f" + (f.wide ? " wide" : ""), for: inp.id }, f.label, inp));
+  }
+  const submit = h("button", { class: "btn primary", type: "submit", id: `f-${tab}-submit` }, "Add " + spec.noun);
+  const cancel = h("button", { class: "btn ghost", type: "button", id: `f-${tab}-cancel`, hidden: true, onclick: () => resetForm(tab) }, "Cancel");
+  form.append(h("div", { style: { display: "flex", gap: "6px", alignItems: "end" } }, submit, cancel));
+  form.addEventListener("submit", (e) => { e.preventDefault(); submitForm(tab); });
+  return form;
+}
+
+function readField(tab, f) {
+  const id = `f-${tab}-${f.k}`, el = document.getElementById(id);
+  if (!el) return undefined;
+  if (f.type === "days") return [...el.querySelectorAll("input:checked")].map((x) => +x.value);
+  if (f.type === "check") return el.checked;
+  if (f.type === "number") return el.value === "" ? f.def : Math.max(0, +el.value);
+  if (f.num) return +el.value;
+  return el.value.trim();
+}
+function writeField(tab, f, v) {
+  const el = document.getElementById(`f-${tab}-${f.k}`); if (!el) return;
+  if (f.type === "days") { for (const x of el.querySelectorAll("input")) x.checked = Array.isArray(v) && v.includes(+x.value); return; }
+  if (f.type === "check") { el.checked = !!v; return; }
+  el.value = v == null ? "" : String(v);
+}
+function resetForm(tab) {
+  const spec = SPECS[tab], form = document.getElementById(`form-${tab}`); if (!form) return;
+  form.dataset.editing = "";
+  for (const f of spec.fields) writeField(tab, f, f.def ?? "");
+  document.getElementById(`f-${tab}-submit`).textContent = "Add " + spec.noun;
+  document.getElementById(`f-${tab}-cancel`).hidden = true;
+}
+function editItem(tab, it) {
+  const spec = SPECS[tab], form = document.getElementById(`form-${tab}`); if (!form) return;
+  form.dataset.editing = it.id;
+  for (const f of spec.fields) writeField(tab, f, it[f.k]);
+  document.getElementById(`f-${tab}-submit`).textContent = "Save " + spec.noun;
+  document.getElementById(`f-${tab}-cancel`).hidden = false;
+  form.scrollIntoView({ behavior: "smooth", block: "center" });
+  document.getElementById(`f-${tab}-${spec.fields[0].k}`).focus();
+}
+async function submitForm(tab) {
+  const spec = SPECS[tab], form = document.getElementById(`form-${tab}`), editing = form.dataset.editing;
+  const data = {};
+  for (const f of spec.fields) {
+    const v = readField(tab, f);
+    if (f.req && (v === "" || v == null || (Array.isArray(v) && !v.length))) { toast(`Add ${f.label.toLowerCase()} first`); document.getElementById(`f-${tab}-${f.k}`)?.focus?.(); return; }
+    if (v !== "" && v != null) data[f.k] = v;
+  }
+  if (data.start && data.end && !span(data.start, data.end)) { toast("Check the start and end times"); return; }
+  const base = editing ? S[spec.coll][editing] || {} : { createdAt: Date.now() };
+  if (!editing && tab === "tasks") data.done = false;
+  if (!editing && tab === "goals") data.order = Object.keys(S.goals).length + 1;
+  const id = editing || uid(tab.slice(0, 1));
+  const merged = { ...base, ...data };
+  for (const f of spec.fields) if (!(f.k in data) && !f.req && f.type !== "check") delete merged[f.k];
+  await Store.write(spec.coll, id, merged);
+  resetForm(tab);
+  toast(editing ? "Saved" : `Added ${spec.noun}. Replan to fit it in.`);
+}
+
+function rulesForm() {
+  const c = cfg();
+  const f = h("form", { id: "rulesForm", style: { display: "grid", gap: "14px" } });
+  const t = (id, label, val, type = "time") => h("label", { class: "f", for: id }, label, h("input", { type, id, value: val ?? "" }));
+  f.append(h("div", { class: "form", style: { marginTop: 0 } },
+    t("r-wake", "Wake up", c.wake), t("r-bed", "Bedtime", c.bed),
+    t("r-buffer", "Buffer between blocks (min)", c.buffer, "number"), t("r-chunk", "Longest work block (min)", c.maxChunk, "number")));
+  const w = c.windows || DEFAULT_CONFIG.windows;
+  f.append(h("div", null, h("div", { class: "eyebrow", style: { marginBottom: "6px" } }, "Time of day"), h("div", { class: "form", style: { marginTop: 0 } },
+    ...["morning", "afternoon", "evening"].flatMap((k) => [t(`r-w-${k}-a`, `${k[0].toUpperCase() + k.slice(1)} starts`, (w[k] || [])[0]), t(`r-w-${k}-b`, "ends", (w[k] || [])[1])]))));
+  const meals = (c.meals && c.meals.length ? c.meals : DEFAULT_CONFIG.meals).slice(0, 4);
+  while (meals.length < 3) meals.push({ name: "", from: "", to: "", minutes: 30 });
+  f.append(h("div", null, h("div", { class: "eyebrow", style: { marginBottom: "6px" } }, "Meals (the planner fits each one inside its window)"),
+    ...meals.map((m, i) => h("div", { class: "form", style: { marginTop: i ? "6px" : 0 } },
+      t(`r-m${i}-name`, "Meal", m.name, "text"), t(`r-m${i}-from`, "Earliest", m.from), t(`r-m${i}-to`, "Latest", m.to), t(`r-m${i}-min`, "Minutes", m.minutes, "number")))));
+  f.append(h("label", { class: "f", for: "r-rules" }, "Rules Claude should follow (plain English)",
+    h("textarea", { id: "r-rules", rows: "5", placeholder: "e.g. No LeetCode after 10pm. Saturday night is free. If the week is overloaded, trim career prep before gym or sleep." }, c.rules || "")));
+  f.append(h("label", { class: "f", for: "r-about" }, "About me (context for Claude)",
+    h("textarea", { id: "r-about", rows: "3" }, c.about || "")));
+  f.append(h("div", { style: { display: "flex", gap: "8px" } }, h("button", { class: "btn primary", type: "submit" }, "Save rules")));
+  f.addEventListener("input", () => { f.dataset.dirty = "1"; });
+  f.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const v = (id) => document.getElementById(id).value.trim();
+    const next = { ...cfg(), wake: v("r-wake") || "07:30", bed: v("r-bed") || "23:30",
+      buffer: Math.max(0, +v("r-buffer") || 0), maxChunk: Math.max(30, +v("r-chunk") || 120),
+      windows: Object.fromEntries(["morning", "afternoon", "evening"].map((k) => [k, [v(`r-w-${k}-a`), v(`r-w-${k}-b`)]])),
+      meals: meals.map((_, i) => ({ name: v(`r-m${i}-name`), from: v(`r-m${i}-from`), to: v(`r-m${i}-to`), minutes: Math.max(10, +v(`r-m${i}-min`) || 30) })).filter((m) => m.name && m.from && m.to),
+      rules: v("r-rules"), about: v("r-about") };
+    delete f.dataset.dirty;
+    await Store.write("config", "main", next);
+    toast("Rules saved. Replan to apply them.");
+  });
+  return f;
+}
+
+
+/* ---------- Claude: proposes changes, Amer approves ---------- */
+const OP_DOCS = `Op shapes (P = one of class, belay, career, gym, meals, free, work, other):
+{"op":"addTask","title":str,"pillar":P,"minutes":int,"due":"YYYY-MM-DD" or null,"priority":1|2|3}
+{"op":"updateTask","id":str, ...any of title,pillar,minutes,due,priority}
+{"op":"completeTask","id":str}   {"op":"deleteTask","id":str}
+{"op":"addEvent","title":str,"pillar":P,"date":"YYYY-MM-DD","start":"HH:MM","end":"HH:MM","where":str}
+{"op":"updateEvent","id":str, ...fields}   {"op":"deleteEvent","id":str}
+{"op":"addCommitment","title":str,"pillar":P,"days":[0-6],"start":"HH:MM","end":"HH:MM","where":str}
+{"op":"updateCommitment","id":str, ...fields}   {"op":"deleteCommitment","id":str}
+{"op":"addGoal","label":str,"pillar":P,"count":int,"minutes":int,"when":"morning"|"afternoon"|"evening"|"any","days":[0-6] or [],"protect":bool,"earliest":"HH:MM" or null,"latest":"HH:MM" or null}
+{"op":"updateGoal","id":str, ...fields}   {"op":"deleteGoal","id":str}
+{"op":"updateRules", ...any of wake,bed,rules,about,buffer}`;
+
+function planSummary(plan) {
+  if (!plan) return "No plan saved for this week yet.";
+  const out = [];
+  for (let d = 0; d < 7; d++) {
+    const bs = sortBy(plan.blocks.filter((b) => b.d === d), (b) => b.s);
+    if (bs.length) out.push(`${DAYS[d]}: ` + bs.map((b) => `${hhmm(b.s)}-${hhmm(b.e)} ${b.title}${b.done ? " (done)" : ""}`).join("; "));
+  }
+  if (plan.unplaced && plan.unplaced.length) out.push("Didn't fit: " + plan.unplaced.map((u) => `${u.title} (${u.why})`).join("; "));
+  return out.join("\n").slice(0, 9000);
+}
+function contextJSON() {
+  const c = cfg(), now = new Date(), soon = dkey(addDays(now, 45)), today = dkey(now);
+  const strip = (o, keys) => Object.fromEntries(keys.filter((k) => o[k] != null && o[k] !== "").map((k) => [k, o[k]]));
+  return JSON.stringify({
+    config: strip(c, ["wake", "bed", "buffer", "rules", "about", "meals", "windows"]),
+    goals: Object.values(S.goals).map((g) => strip(g, ["id", "label", "pillar", "count", "minutes", "when", "days", "protect", "earliest", "latest"])),
+    weeklySchedule: Object.values(S.commitments).map((x) => strip(x, ["id", "title", "pillar", "days", "start", "end", "where"])),
+    events: Object.values(S.events).filter((e) => e.date >= today && e.date <= soon).map((x) => strip(x, ["id", "title", "pillar", "date", "start", "end", "where"])),
+    openTasks: Object.values(S.tasks).filter((t) => !t.done).map((x) => strip(x, ["id", "title", "pillar", "minutes", "due", "priority"])),
+    progressThisWeek: statsFor(currentPlan()).rows.map((r) => ({ goal: r.g.label, done: r.done, planned: r.planned, target: r.target })),
+  });
+}
+function buildPrompt(message) {
+  const now = new Date();
+  return `You are the planning assistant inside "Amer OS", Amer Khan's weekly planner. Amer is a UConn computer science sophomore on a full ride who is building a startup (Belay), works as a TA and campus IT technician, prepares for Summer 2027 internships, lifts, and wants protected free time.
+
+How the app works: you only PROPOSE changes to the planner's inputs; Amer approves them. A deterministic planner then lays out the week: weekly schedule + one-off events are fixed, then meals, then protected goals, then tasks (earliest due date first), then other goals. So change inputs (tasks, events, weekly schedule, goals, rules). Do not try to place individual time blocks.
+
+Now: ${DAYS[(now.getDay() + 6) % 7]} ${dkey(now)} ${hhmm(now.getHours() * 60 + now.getMinutes())}. The week being viewed starts ${weekKey()}. In "days" arrays 0=Mon ... 6=Sun. Times are 24-hour "HH:MM". Dates are "YYYY-MM-DD".
+
+Be a sharp, realistic chief of staff: protect sleep, meals and free time; flag overload and say what to cut; keep deadlines safe. If something is ambiguous (like an unknown time), make a sensible assumption and say so. Use existing ids for update, complete and delete ops. Propose only the ops that are needed. The "reply" speaks to Amer as "you", in plain language, under 120 words.
+
+Planner data:
+${contextJSON()}
+
+This week's current plan:
+${planSummary(currentPlan())}
+
+Amer says: ${JSON.stringify(message)}
+
+Reply with ONLY a JSON object: {"reply": string, "ops": [ ... ], "replan": boolean}. Set "replan" true when the week should be re-laid-out after the ops.
+${OP_DOCS}`;
+}
+
+const T = (v) => (/^\d{1,2}:\d{2}$/.test(String(v || "")) ? hhmm(toMin(v)) : null);
+const D = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || "")) ? String(v) : null);
+function cleanFields(o, kind) {
+  const out = {};
+  const str = (k) => { if (o[k] != null && String(o[k]).trim()) out[k] = String(o[k]).trim().slice(0, 160); };
+  const num = (k, lo, hi) => { if (o[k] != null && isFinite(+o[k])) out[k] = Math.min(hi, Math.max(lo, Math.round(+o[k]))); };
+  str("title"); str("label"); str("where");
+  if (o.pillar != null) out.pillar = pillarOf(String(o.pillar));
+  num("minutes", 5, 600); num("count", 0, 21); num("priority", 1, 3); num("buffer", 0, 60);
+  for (const k of ["start", "end", "earliest", "latest", "wake", "bed"]) if (o[k] !== undefined) { const t = T(o[k]); if (t) out[k] = t; else if (o[k] === null) out[k] = null; }
+  for (const k of ["due", "date"]) if (o[k] !== undefined) { const d = D(o[k]); if (d) out[k] = d; else if (o[k] === null && k === "due") out[k] = ""; }
+  if (Array.isArray(o.days)) out.days = [...new Set(o.days.map(Number).filter((d) => d >= 0 && d <= 6))];
+  if (o.when && WHEN.some((w) => w[0] === o.when)) out.when = o.when;
+  if (typeof o.protect === "boolean") out.protect = o.protect;
+  if (kind === "rules") { if (typeof o.rules === "string") out.rules = o.rules.slice(0, 4000); if (typeof o.about === "string") out.about = o.about.slice(0, 2000); }
+  return out;
+}
+const OP_COLL = { Task: "tasks", Event: "events", Commitment: "commitments", Goal: "goals" };
+function normalizeOps(raw) {
+  const ops = [];
+  for (const o of Array.isArray(raw) ? raw : []) {
+    if (!o || typeof o.op !== "string") continue;
+    const m = /^(add|update|delete|complete)(Task|Event|Commitment|Goal)$/.exec(o.op);
+    if (o.op === "updateRules") { ops.push({ op: "updateRules", f: cleanFields(o, "rules") }); continue; }
+    if (!m) continue;
+    const [, verb, kind] = m, coll = OP_COLL[kind];
+    if (verb === "complete" && kind !== "Task") continue;
+    const f = cleanFields(o, kind);
+    if (verb !== "add") { if (!o.id || !S[coll][o.id]) continue; ops.push({ op: o.op, verb, coll, id: String(o.id), f }); continue; }
+    if (kind === "Task" && !f.title) continue;
+    if (kind === "Goal" && !f.label) continue;
+    if (kind === "Event" && !(f.title && f.date && f.start && f.end)) continue;
+    if (kind === "Commitment" && !(f.title && f.days && f.days.length && f.start && f.end)) continue;
+    ops.push({ op: o.op, verb, coll, f });
+  }
+  return ops;
+}
+function describeOp(o) {
+  const f = o.f || {}, P = (p) => (p ? PILLARS[pillarOf(p)].label : "");
+  const bits = (arr) => arr.filter(Boolean).join(", ");
+  if (o.op === "updateRules") return "Update rules: " + Object.keys(f).map((k) => (k === "rules" || k === "about" ? k : `${k} → ${f[k]}`)).join(", ");
+  const cur = o.id ? S[o.coll][o.id] || {} : {};
+  const name = f.title || f.label || cur.title || cur.label || "item";
+  const when = f.date ? `${md(pdate(f.date))}` : "";
+  const time = f.start && f.end ? fmtRange(toMin(f.start), toMin(f.end)) : "";
+  const days = f.days && f.days.length ? f.days.map((d) => DAYS[d]).join(" ") : "";
+  const noun = { tasks: "task", events: "event", commitments: "weekly item", goals: "goal" }[o.coll];
+  if (o.verb === "add") return `Add ${noun}: ${name} (${bits([P(f.pillar), f.minutes && o.coll === "tasks" ? dur(f.minutes) : "", f.due ? "due " + md(pdate(f.due)) : "", when, days, time, f.count ? `${f.count}× ${dur(f.minutes || 60)}` : ""])})`;
+  if (o.verb === "delete") return `Remove ${noun}: ${name}`;
+  if (o.verb === "complete") return `Mark done: ${name}`;
+  const ch = Object.entries(f).filter(([k]) => k !== "title" || f.title !== cur.title).map(([k, v]) => `${k} → ${Array.isArray(v) ? v.map((d) => DAYS[d]).join(" ") : v}`);
+  return `Change ${noun} "${cur.title || cur.label || name}": ${ch.join(", ") || "no changes"}`;
+}
+async function applyOps(ops) {
+  let n = 0;
+  for (const o of ops) {
+    if (o.op === "updateRules") { await Store.write("config", "main", { ...cfg(), ...o.f }); n++; continue; }
+    if (o.verb === "add") {
+      const base = { createdAt: Date.now() };
+      if (o.coll === "tasks") Object.assign(base, { done: false, priority: 2, minutes: 60, pillar: "other" });
+      if (o.coll === "goals") Object.assign(base, { order: Object.keys(S.goals).length + 1, when: "any", count: 1, minutes: 60 });
+      await Store.write(o.coll, uid(o.coll.slice(0, 1)), { ...base, ...o.f }); n++;
+    } else if (o.verb === "delete") { await Store.remove(o.coll, o.id); n++; }
+    else if (o.verb === "complete") { await Store.write("tasks", o.id, { ...S.tasks[o.id], done: true, doneAt: Date.now() }); n++; }
+    else if (S[o.coll][o.id]) { const next = { ...S[o.coll][o.id], ...o.f }; for (const k of Object.keys(next)) if (next[k] === null) delete next[k]; await Store.write(o.coll, o.id, next); n++; }
+  }
+  return n;
+}
+async function replanWeek(weekStart) {
+  if (weekPosition(weekStart).kind === "past") return;
+  const plan = buildPlan(weekStart, S.plans[dkey(weekStart)] || null);
+  await Store.write("plans", plan.weekStart, plan);
+  return plan;
+}
+
+function opsChecklist(ops, onApply, applyLabel) {
+  const wrap = h("div", { class: "ops" });
+  if (!ops.length) return wrap;
+  const boxes = ops.map((o, i) => {
+    const cb = h("input", { type: "checkbox", id: `op-${Date.now().toString(36)}-${i}`, checked: true });
+    wrap.append(h("label", { class: "op", for: cb.id }, cb, h("span", null, describeOp(o))));
+    return cb;
+  });
+  const btn = h("button", { class: "btn primary", style: { justifySelf: "start" }, onclick: async () => {
+    btn.disabled = true;
+    const chosen = ops.filter((_, i) => boxes[i].checked);
+    try { await onApply(chosen); } finally { btn.disabled = false; }
+  } }, applyLabel);
+  wrap.append(btn);
+  return wrap;
+}
+
+/* Models sometimes wrap JSON in prose or a code fence; take the JSON out. */
+function parseLooseJson(text) {
+  const tryParse = (x) => { try { return JSON.parse(x); } catch (_) { return undefined; } };
+  let v = tryParse(text);
+  if (v !== undefined) return v;
+  const fence = /```(?:json)?\s*([\s\S]*?)```/.exec(text);
+  if (fence && (v = tryParse(fence[1].trim())) !== undefined) return v;
+  const starts = [text.indexOf("{"), text.indexOf("[")].filter((i) => i >= 0);
+  const start = starts.length ? Math.min(...starts) : -1;
+  const end = Math.max(text.lastIndexOf("}"), text.lastIndexOf("]"));
+  if (start >= 0 && end > start && (v = tryParse(text.slice(start, end + 1))) !== undefined) return v;
+  throw { code: "invalid_json", message: "Claude's reply was not JSON", text };
+}
+
+/* When the backend serves the page, Ask Claude goes through /api/ask. */
+function serverSample() {
+  return {
+    json: async (prompt, opts = {}) => {
+      const { text } = await Store.apiFetch("/ask", { method: "POST", body: { prompt }, signal: opts.signal });
+      return parseLooseJson(String(text || ""));
+    },
+  };
+}
+
+let sampleFn = null, askCtl = null;
+async function ask(message) {
+  if (!sampleFn) { toast(S.mode === "local" ? "Open this page in Claude to use Ask Claude." : "Ask Claude isn't available here."); return; }
+  const out = $("#agentOut"), opsBox = $("#agentOps"), askBtn = $("#askBtn"), stop = $("#stopBtn");
+  out.hidden = false; out.textContent = "Thinking…"; opsBox.replaceChildren();
+  askBtn.disabled = true; $("#reviewBtn").disabled = true; stop.hidden = false;
+  askCtl = new AbortController();
+  const t0 = Date.now(), tick = setInterval(() => { if (out.textContent.startsWith("Thinking")) out.textContent = `Thinking… ${Math.round((Date.now() - t0) / 1000)}s`; }, 1000);
+  try {
+    const res = await sampleFn.json(buildPrompt(message), { signal: askCtl.signal, cache: false });
+    const ops = normalizeOps(res && res.ops);
+    out.textContent = (res && typeof res.reply === "string" && res.reply.trim()) || (ops.length ? "Here's what I'd change." : "No changes needed.");
+    if (ops.length) opsBox.replaceChildren(opsChecklist(ops, async (chosen) => {
+      const n = await applyOps(chosen);
+      if ((res.replan || n) && weekPosition(S.week).kind !== "past") await replanWeek(S.week);
+      opsBox.replaceChildren(); $("#agentInput").value = "";
+      toast(`Applied ${n} change${n === 1 ? "" : "s"}${weekPosition(S.week).kind !== "past" ? " and replanned" : ""}`);
+    }, "Apply and replan"));
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "cancelled") out.textContent = "Stopped.";
+    else if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(code)) { out.textContent = "Ask Claude is turned off for this page. You can still plan and edit everything by hand."; sampleFn = null; }
+    else if (code === "rate_limited") out.textContent = "Too many requests right now. Try again in a minute.";
+    else if (code === "invalid_json") out.textContent = "Claude's answer came back in the wrong format. Try again, or ask for fewer changes at once.";
+    else if (code === "prompt_too_large") out.textContent = "There's too much planner data to send at once. Clear out old tasks and try again.";
+    else if (code === "session_expired") out.textContent = "Sign in to Claude again, then retry.";
+    else if (code === "http_503") out.textContent = "Ask Claude is off on your server. Set ANTHROPIC_API_KEY and restart it.";
+    else if (code === "unauthorized") out.textContent = "Your access key was rejected. Reload the page and enter it again.";
+    else out.textContent = "Couldn't reach Claude. Try again.";
+  } finally {
+    clearInterval(tick); askBtn.disabled = false; $("#reviewBtn").disabled = false; stop.hidden = true; askCtl = null;
+  }
+}
+
+function renderAgentSide() {
+  const bb = $("#briefBox"), brief = S.briefs[0];
+  const fresh = brief && Date.now() - (brief.createdAt || 0) < 3 * 864e5;
+  bb.hidden = !fresh;
+  if (fresh) {
+    const t = new Date(brief.createdAt);
+    bb.replaceChildren(h("div", { class: "eyebrow", style: { marginBottom: "6px" } }, `${brief.kind === "weekly" ? "Sunday plan" : "Morning brief"} · ${DAYS[(t.getDay() + 6) % 7]} ${md(t)}`),
+      h("div", { class: "brief" }, String(brief.text || "")));
+  }
+  const pb = $("#proposalBox"), p = S.proposals[0];
+  pb.hidden = !p;
+  if (p) {
+    const ops = normalizeOps(p.ops);
+    const setStatus = async (status) => {
+      S.proposals = S.proposals.filter((x) => x.id !== p.id); render();
+      const { id, ...rest } = p;
+      await Store.setRaw("proposals/" + id, { ...rest, status, decidedAt: Date.now() });
+    };
+    pb.replaceChildren(
+      h("div", { class: "eyebrow", style: { marginBottom: "6px" } }, "Suggested by autopilot"),
+      h("div", { class: "agent-out" }, String(p.summary || "Suggested changes")),
+      opsChecklist(ops, async (chosen) => {
+        const n = await applyOps(chosen);
+        const wk = p.weekStart && D(p.weekStart) ? mondayOf(pdate(p.weekStart)) : S.week;
+        await replanWeek(wk);
+        await setStatus("applied");
+        toast(`Applied ${n} change${n === 1 ? "" : "s"} and planned the week`);
+      }, ops.length ? "Apply and plan week" : "Plan week"),
+      h("button", { class: "btn small ghost", style: { marginTop: "6px" }, onclick: () => setStatus("dismissed") }, "Dismiss"));
+  }
+}
+
+/* ---------- Boot ---------- */
+const EXAMPLES = [
+  "Add my weekly classes: CSE 2050 MWF 10:10–11:00",
+  "My midterm moved to Thursday 2pm. I need 4 hours of prep.",
+  "I'm wiped today. Lighten today and move what matters.",
+  "Add 5 internship applications this week",
+];
+function boot() {
+  $("#prevWeek").onclick = () => { S.week = addDays(S.week, -7); render(); };
+  $("#nextWeek").onclick = () => { S.week = addDays(S.week, 7); render(); };
+  $("#thisWeek").onclick = () => { S.week = mondayOf(new Date()); S.day = (new Date().getDay() + 6) % 7; render(); };
+  $("#planBtn").onclick = async () => {
+    const btn = $("#planBtn"); btn.disabled = true;
+    try { const p = await replanWeek(S.week); if (p) toast(p.unplaced.length ? `Planned. ${p.unplaced.length} item${p.unplaced.length === 1 ? "" : "s"} didn't fit.` : "Week planned"); }
+    finally { btn.disabled = false; render(); }
+  };
+  for (const b of document.querySelectorAll("#tabs button")) b.onclick = () => setTab(b.dataset.tab);
+  const ex = $("#examples");
+  for (const e of EXAMPLES) ex.append(h("button", { type: "button", onclick: () => { $("#agentInput").value = e; $("#agentInput").focus(); } }, e));
+  $("#askBtn").onclick = () => { const v = $("#agentInput").value.trim(); if (!v) { toast("Type what changed first"); $("#agentInput").focus(); return; } ask(v); };
+  $("#agentInput").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("#askBtn").click(); });
+  $("#stopBtn").onclick = () => askCtl && askCtl.abort();
+  $("#reviewBtn").onclick = () => ask("Review my plan for the week I'm viewing against my goals and rules. Call out the biggest risks (overload, sleep, deadlines, missing free time) and propose the few changes that matter most.");
+  initAccount();
+  setTab("tasks");
+  render();
+  Store.init().then(() => render());
+  (async () => {
+    try { sampleFn = window.claude && typeof window.claude.use === "function" ? await window.claude.use("sample") : null; } catch (_) { sampleFn = null; }
+    if (!sampleFn && Store.api) {
+      const health = await fetch(Store.api + "/health").then((r) => r.json()).catch(() => null);
+      if (health && health.ask) sampleFn = serverSample();
+    }
+    $("#agentState").textContent = sampleFn ? "Proposes changes for you to approve" : "Available when opened in Claude";
+  })();
+  setInterval(render, 60000);
+}
+
+
+/* ---------- Account, notifications and Google Calendar ----------
+ * Only used when the backend serves the page. In the Claude artifact and in
+ * local preview these all stay hidden.
+ */
+const Account = {
+  user: null, signupMode: false,
+  push: { enabled: false, key: null, subscribed: false, busy: false },
+  gcal: { enabled: false, connected: false },
+};
+
+function errText(e, fallback) {
+  const raw = (e && e.message) || "";
+  try { const j = JSON.parse(raw); if (j && j.error) return j.error; } catch (_) {}
+  return raw && raw.length < 160 ? raw : fallback;
+}
+
+/* ---- sign in / sign up ---- */
+async function showAuth() {
+  let status = null;
+  try { status = await (await fetch(Store.api + "/auth/status")).json(); } catch (_) {}
+  Account.signupMode = Boolean(status && status.hasAccount === false);
+  $("#authIntro").textContent = Account.signupMode
+    ? "First time here. Pick an email and a password of at least 10 characters, and this planner is yours."
+    : "Sign in to your planner.";
+  $("#authSubmit").textContent = Account.signupMode ? "Create account" : "Sign in";
+  $("#authPassword").setAttribute("autocomplete", Account.signupMode ? "new-password" : "current-password");
+  $("#authOverlay").hidden = false;
+  $("#authEmail").focus();
+}
+function hideAuth() {
+  $("#authOverlay").hidden = true;
+  $("#authError").hidden = true;
+  $("#authPassword").value = "";
+}
+async function submitAuth(ev) {
+  ev.preventDefault();
+  const btn = $("#authSubmit"), err = $("#authError");
+  const email = $("#authEmail").value.trim(), password = $("#authPassword").value;
+  btn.disabled = true; err.hidden = true;
+  try {
+    const res = await Store.apiFetch(Account.signupMode ? "/auth/signup" : "/auth/login", { method: "POST", body: { email, password } });
+    Account.user = res.user;
+    hideAuth();
+    await Store.loadFromApi();
+    loadConnections();
+    toast(Account.signupMode ? "Account created" : "Signed in");
+  } catch (e) {
+    err.textContent = errText(e, "That didn't work. Try again.");
+    err.hidden = false;
+  } finally { btn.disabled = false; }
+}
+async function signOut() {
+  try { await Store.apiFetch("/auth/logout", { method: "POST" }); } catch (_) {}
+  Account.user = null;
+  location.reload();
+}
+
+/* ---- what this server offers, and what this browser has already agreed to ---- */
+async function loadConnections() {
+  if (!Store.api) return;
+  try {
+    const health = await (await fetch(Store.api + "/health")).json();
+    Account.push.enabled = Boolean(health.push);
+    Account.gcal.enabled = Boolean(health.gcal);
+  } catch (_) {}
+  try { Account.user = (await Store.apiFetch("/auth/me")).user; } catch (_) {}
+  if (Account.gcal.enabled) {
+    try { const st = await Store.apiFetch("/gcal/status"); Account.gcal.connected = Boolean(st.connected); } catch (_) {}
+  }
+  if (Account.push.enabled && "serviceWorker" in navigator && "PushManager" in window) {
+    try {
+      const reg = await navigator.serviceWorker.getRegistration();
+      const sub = reg ? await reg.pushManager.getSubscription() : null;
+      Account.push.subscribed = Boolean(sub);
+    } catch (_) {}
+  }
+  renderConnections();
+}
+
+function renderConnections() {
+  const box = $("#connections");
+  if (!box) return;
+  if (!Store.api) { box.hidden = true; return; }
+  box.hidden = false;
+  box.replaceChildren();
+  box.append(h("span", { class: "who" }, Account.user && Account.user.email ? Account.user.email : "Signed in"));
+
+  if (Account.push.enabled && "serviceWorker" in navigator && "PushManager" in window) {
+    box.append(Account.push.subscribed
+      ? h("button", { class: "btn small", onclick: testPush }, "Send a test notification")
+      : h("button", { class: "btn small", onclick: enablePush }, "Notify me on this device"));
+  }
+  if (Account.gcal.enabled) {
+    box.append(Account.gcal.connected
+      ? h("button", { class: "btn small", onclick: syncCalendar }, "Sync week to Google Calendar")
+      : h("button", { class: "btn small", onclick: () => { location.href = Store.api + "/gcal/connect"; } }, "Connect Google Calendar"));
+  }
+  box.append(h("button", { class: "btn small ghost", onclick: signOut }, "Sign out"));
+}
+
+/* ---- web push ---- */
+function urlBase64ToUint8Array(base64) {
+  const padded = (base64 + "=".repeat((4 - (base64.length % 4)) % 4)).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(padded);
+  return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)));
+}
+async function enablePush() {
+  if (Account.push.busy) return;
+  Account.push.busy = true;
+  try {
+    const { key, enabled } = await Store.apiFetch("/push/key");
+    if (!enabled || !key) { toast("Push isn't set up on this server yet."); return; }
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") { toast("Notifications are blocked in this browser's settings."); return; }
+    const reg = await navigator.serviceWorker.register("/sw.js");
+    await navigator.serviceWorker.ready;
+    const sub = (await reg.pushManager.getSubscription())
+      || (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(key) }));
+    await Store.apiFetch("/push/subscribe", { method: "POST", body: { subscription: sub.toJSON() } });
+    Account.push.subscribed = true;
+    renderConnections();
+    toast("Notifications on. Your morning brief will arrive here.");
+  } catch (e) {
+    console.warn("push setup failed", e);
+    toast(errText(e, "Couldn't turn on notifications on this device."));
+  } finally { Account.push.busy = false; }
+}
+async function testPush() {
+  try {
+    const { sent } = await Store.apiFetch("/push/test", { method: "POST" });
+    toast(sent ? "Sent. It should appear in a moment." : "No device is registered yet.");
+  } catch (e) { toast(errText(e, "Couldn't send a test notification.")); }
+}
+
+/* ---- Google Calendar ---- */
+async function syncCalendar() {
+  if (!currentPlan()) { toast("Plan the week first, then sync it."); return; }
+  toast("Syncing to Google Calendar…");
+  try {
+    const res = await Store.apiFetch("/gcal/sync", { method: "POST", body: { weekStart: weekKey() } });
+    toast(`${res.events} blocks are in your "${res.calendar}" calendar.`);
+  } catch (e) { toast(errText(e, "Google Calendar wouldn't take that. Try reconnecting.")); }
+}
+
+/* ---- startup ---- */
+function initAccount() {
+  const form = $("#authForm");
+  if (form) form.addEventListener("submit", submitAuth);
+  if (new URLSearchParams(location.search).get("gcal") === "connected") {
+    history.replaceState(null, "", location.pathname);
+    setTimeout(() => toast("Google Calendar connected. Press Sync to fill the week."), 400);
+  }
+}
+
+
+/* Last file in the bundle: starts the app and closes the module wrapper that
+ * 01-core.js opened, so every file above shares one private scope. */
+boot();
+})();
+
+</script>
+
+</body>
+</html>
